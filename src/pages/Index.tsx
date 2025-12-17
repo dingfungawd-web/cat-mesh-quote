@@ -1,5 +1,5 @@
 import { AssessmentForm } from "@/components/AssessmentForm";
-import { Shield, Phone } from "lucide-react";
+import { Shield } from "lucide-react";
 import dfLogo from "@/assets/df-logo.jpg";
 
 const Index = () => {
@@ -8,21 +8,12 @@ const Index = () => {
       {/* Header */}
       <header className="bg-accent text-accent-foreground py-4 px-4">
         <div className="container max-w-4xl mx-auto">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <img 
-                src={dfLogo} 
-                alt="DF 創意家居" 
-                className="h-12 w-auto object-contain bg-white rounded p-1"
-              />
-            </div>
-            <a 
-              href="tel:+85212345678" 
-              className="flex items-center gap-2 bg-primary hover:bg-primary/90 transition-colors px-4 py-2 rounded-lg text-sm font-medium text-primary-foreground"
-            >
-              <Phone className="w-4 h-4" />
-              <span className="hidden sm:inline">聯絡我們</span>
-            </a>
+          <div className="flex items-center justify-center">
+            <img 
+              src={dfLogo} 
+              alt="DF 創意家居" 
+              className="h-12 w-auto object-contain bg-white rounded p-1"
+            />
           </div>
         </div>
       </header>
@@ -60,7 +51,7 @@ const Index = () => {
                 alt="DF 創意家居" 
                 className="h-8 w-auto object-contain"
               />
-              <span>© 2024 DF 創意家居 · 全港領先防貓網工程公司</span>
+              <span>© 2017 DF 創意家居 · 全港領先防貓網工程公司</span>
             </div>
             <p className="text-center md:text-right font-medium text-foreground/80">
               成為您貓咪一生的守護顧問

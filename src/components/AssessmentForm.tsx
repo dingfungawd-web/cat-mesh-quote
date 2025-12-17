@@ -11,8 +11,10 @@ import { useToast } from "@/hooks/use-toast";
 
 interface FormData {
   address: string;
-  houseType: string;
+  buildingType: string;
+  floorLevel: string;
   windowCount: string;
+  doorCount: string;
   catCount: string;
   heaviestCatWeight: string;
   q5Score: number;
@@ -24,8 +26,10 @@ interface FormData {
 
 const initialFormData: FormData = {
   address: "",
-  houseType: "",
+  buildingType: "",
+  floorLevel: "",
   windowCount: "",
+  doorCount: "",
   catCount: "",
   heaviestCatWeight: "",
   q5Score: -1,
@@ -109,8 +113,10 @@ export function AssessmentForm() {
   const isStep1Valid = () => {
     return (
       formData.address.trim() !== "" &&
-      formData.houseType.trim() !== "" &&
+      formData.buildingType.trim() !== "" &&
+      formData.floorLevel.trim() !== "" &&
       formData.windowCount.trim() !== "" &&
+      formData.doorCount.trim() !== "" &&
       formData.catCount.trim() !== "" &&
       formData.heaviestCatWeight.trim() !== ""
     );
@@ -232,30 +238,70 @@ export function AssessmentForm() {
               />
             </div>
             <div>
-              <Label htmlFor="houseType" className="text-sm font-medium">
+              <Label className="text-sm font-medium">
                 一、戶型與居住樓層？ <span className="text-destructive">*</span>
               </Label>
-              <Input
-                id="houseType"
-                placeholder="例如：村屋地下、高層（30樓以上）"
-                value={formData.houseType}
-                onChange={(e) => updateFormData("houseType", e.target.value)}
-                className="mt-1.5"
-              />
+              <div className="grid grid-cols-2 gap-3 mt-1.5">
+                <div>
+                  <Label htmlFor="buildingType" className="text-xs text-muted-foreground">
+                    戶型
+                  </Label>
+                  <select
+                    id="buildingType"
+                    value={formData.buildingType}
+                    onChange={(e) => updateFormData("buildingType", e.target.value)}
+                    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                  >
+                    <option value="">請選擇</option>
+                    <option value="私人大廈">私人大廈</option>
+                    <option value="村屋/別墅">村屋/別墅</option>
+                  </select>
+                </div>
+                <div>
+                  <Label htmlFor="floorLevel" className="text-xs text-muted-foreground">
+                    樓層
+                  </Label>
+                  <Input
+                    id="floorLevel"
+                    placeholder="例如：15"
+                    value={formData.floorLevel}
+                    onChange={(e) => updateFormData("floorLevel", e.target.value)}
+                  />
+                </div>
+              </div>
             </div>
             <div>
-              <Label htmlFor="windowCount" className="text-sm font-medium">
-                二、門窗戶總數量？ <span className="text-destructive">*</span>
+              <Label className="text-sm font-medium">
+                二、家中門窗戶總數量？ <span className="text-destructive">*</span>
               </Label>
-              <Input
-                id="windowCount"
-                placeholder="請輸入數量"
-                type="number"
-                min="1"
-                value={formData.windowCount}
-                onChange={(e) => updateFormData("windowCount", e.target.value)}
-                className="mt-1.5"
-              />
+              <div className="grid grid-cols-2 gap-3 mt-1.5">
+                <div>
+                  <Label htmlFor="windowCount" className="text-xs text-muted-foreground">
+                    窗
+                  </Label>
+                  <Input
+                    id="windowCount"
+                    placeholder="數量"
+                    type="number"
+                    min="0"
+                    value={formData.windowCount}
+                    onChange={(e) => updateFormData("windowCount", e.target.value)}
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="doorCount" className="text-xs text-muted-foreground">
+                    門
+                  </Label>
+                  <Input
+                    id="doorCount"
+                    placeholder="數量"
+                    type="number"
+                    min="0"
+                    value={formData.doorCount}
+                    onChange={(e) => updateFormData("doorCount", e.target.value)}
+                  />
+                </div>
+              </div>
             </div>
             <div>
               <Label htmlFor="catCount" className="text-sm font-medium">
@@ -359,12 +405,20 @@ export function AssessmentForm() {
                   <span className="font-medium">{formData.address}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-muted-foreground">戶型樓層：</span>
-                  <span className="font-medium">{formData.houseType}</span>
+                  <span className="text-muted-foreground">戶型：</span>
+                  <span className="font-medium">{formData.buildingType}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-muted-foreground">門窗數量：</span>
+                  <span className="text-muted-foreground">樓層：</span>
+                  <span className="font-medium">{formData.floorLevel}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">窗數量：</span>
                   <span className="font-medium">{formData.windowCount} 個</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">門數量：</span>
+                  <span className="font-medium">{formData.doorCount} 個</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">貓咪數量：</span>
