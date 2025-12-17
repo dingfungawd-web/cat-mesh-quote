@@ -50,13 +50,9 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        warning: {
-          DEFAULT: "hsl(var(--warning))",
-          foreground: "hsl(var(--warning-foreground))",
-        },
-        success: {
-          DEFAULT: "hsl(var(--success))",
-          foreground: "hsl(var(--success-foreground))",
+        brand: {
+          red: "hsl(var(--brand-red))",
+          black: "hsl(var(--brand-black))",
         },
         risk: {
           low: "hsl(var(--risk-low))",
@@ -94,8 +90,8 @@ export default {
         "slide-up": "slide-up 0.5s ease-out forwards",
       },
       boxShadow: {
-        'glow': '0 0 20px hsl(var(--primary) / 0.3)',
-        'glow-lg': '0 0 30px hsl(var(--primary) / 0.4)',
+        'glow': '0 0 20px hsl(var(--primary) / 0.25)',
+        'glow-lg': '0 0 30px hsl(var(--primary) / 0.35)',
       },
     },
   },
