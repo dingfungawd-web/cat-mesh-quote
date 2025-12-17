@@ -15,8 +15,8 @@ interface FormData {
   floorLevel: string;
   windowCount: string;
   doorCount: string;
-  catCount: string;
   heaviestCatWeight: string;
+  q3Score: number;
   q5Score: number;
   q6Score: number;
   q7Score: number;
@@ -30,8 +30,8 @@ const initialFormData: FormData = {
   floorLevel: "",
   windowCount: "",
   doorCount: "",
-  catCount: "",
   heaviestCatWeight: "",
+  q3Score: -1,
   q5Score: -1,
   q6Score: -1,
   q7Score: -1,
@@ -41,8 +41,18 @@ const initialFormData: FormData = {
 
 const scoredQuestions = [
   {
+    id: "q3",
+    question: "三、家中的貓咪總數？",
+    options: [
+      { value: 1, label: "1 分：1 隻" },
+      { value: 2, label: "2 分：2 隻" },
+      { value: 3, label: "3 分：3 - 5 隻" },
+      { value: 4, label: "4 分：6 隻或以上" },
+    ],
+  },
+  {
     id: "q5",
-    question: "五、貓咪的窗邊行為模式？",
+    question: "四、貓咪的窗邊行為模式？",
     options: [
       { value: 0, label: "0 分：只會睡在窗邊或遠觀" },
       { value: 1, label: "1 分：偶爾會跳上窗台，但不會推網或抓網" },
@@ -52,7 +62,7 @@ const scoredQuestions = [
   },
   {
     id: "q6",
-    question: "六、窗戶結構與通風習慣？",
+    question: "五、窗戶結構與通風習慣？",
     options: [
       { value: 0, label: "0 分：窗戶多為鉸鏈式外開窗或已鎖緊" },
       { value: 1, label: "1 分：窗戶多為推拉式，但有窗鎖或安全扣" },
@@ -62,7 +72,7 @@ const scoredQuestions = [
   },
   {
     id: "q7",
-    question: "七、您的貓咪性格屬於？",
+    question: "六、您的貓咪性格屬於？",
     options: [
       { value: 0, label: "0 分：安靜、年老、不愛跳躍" },
       { value: 1, label: "1 分：一般好動，喜歡在貓跳台上休息" },
@@ -72,7 +82,7 @@ const scoredQuestions = [
   },
   {
     id: "q8",
-    question: "八、家中是否有其他高危險環境？",
+    question: "七、家中是否有其他高危險環境？",
     options: [
       { value: 0, label: "0 分：無" },
       { value: 1, label: "1 分：貓跳台/櫃子緊鄰窗戶，貓咪可直接跳上窗台" },
@@ -82,7 +92,7 @@ const scoredQuestions = [
   },
   {
     id: "q9",
-    question: "九、您對「防貓網」的安裝預期？",
+    question: "八、您對「防貓網」的安裝預期？",
     options: [
       { value: 0, label: "0 分：安全穩固，貓咪生命安全最重要" },
       { value: 1, label: "1 分：安全固然重要，但希望兼顧最大採光和美觀" },
@@ -106,18 +116,8 @@ export function AssessmentForm() {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
-  const calculateCatCountScore = () => {
-    const catCount = parseInt(formData.catCount) || 0;
-    if (catCount >= 6) return 4;
-    if (catCount >= 3) return 3;
-    if (catCount === 2) return 2;
-    if (catCount === 1) return 1;
-    return 0;
-  };
-
   const calculateTotalScore = () => {
-    const catScore = calculateCatCountScore();
-    return catScore + formData.q5Score + formData.q6Score + formData.q7Score + formData.q8Score + formData.q9Score;
+    return formData.q3Score + formData.q5Score + formData.q6Score + formData.q7Score + formData.q8Score + formData.q9Score;
   };
 
   const isStep1Valid = () => {
@@ -127,13 +127,13 @@ export function AssessmentForm() {
       formData.floorLevel.trim() !== "" &&
       formData.windowCount.trim() !== "" &&
       formData.doorCount.trim() !== "" &&
-      formData.catCount.trim() !== "" &&
       formData.heaviestCatWeight.trim() !== ""
     );
   };
 
   const isStep2Valid = () => {
     return (
+      formData.q3Score >= 1 &&
       formData.q5Score >= 0 &&
       formData.q6Score >= 0 &&
       formData.q7Score >= 0 &&
@@ -314,22 +314,8 @@ export function AssessmentForm() {
               </div>
             </div>
             <div>
-              <Label htmlFor="catCount" className="text-sm font-medium">
-                三、飼養貓咪的總數量？ <span className="text-destructive">*</span>
-              </Label>
-              <Input
-                id="catCount"
-                placeholder="請輸入數量"
-                type="number"
-                min="1"
-                value={formData.catCount}
-                onChange={(e) => updateFormData("catCount", e.target.value)}
-                className="mt-1.5"
-              />
-            </div>
-            <div>
               <Label htmlFor="heaviestCatWeight" className="text-sm font-medium">
-                四、最重貓咪的體重？（單位：Kg） <span className="text-destructive">*</span>
+                三、最重貓咪的體重？（單位：Kg） <span className="text-destructive">*</span>
               </Label>
               <Input
                 id="heaviestCatWeight"
@@ -431,10 +417,6 @@ export function AssessmentForm() {
                   <span className="font-medium">{formData.doorCount} 個</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-muted-foreground">貓咪數量：</span>
-                  <span className="font-medium">{formData.catCount} 隻</span>
-                </div>
-                <div className="flex justify-between">
                   <span className="text-muted-foreground">最重貓咪：</span>
                   <span className="font-medium">{formData.heaviestCatWeight} Kg</span>
                 </div>
@@ -444,6 +426,10 @@ export function AssessmentForm() {
             <div className="bg-secondary/50 rounded-lg p-4 space-y-3">
               <h3 className="font-medium text-sm text-muted-foreground">風險評估得分</h3>
               <div className="grid gap-2 text-sm">
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">貓咪數量：</span>
+                  <span className="font-medium">{formData.q3Score} 分</span>
+                </div>
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">窗邊行為：</span>
                   <span className="font-medium">{formData.q5Score} 分</span>
