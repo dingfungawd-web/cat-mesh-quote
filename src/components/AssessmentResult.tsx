@@ -13,8 +13,8 @@ interface FormData {
   floorLevel: string;
   windowCount: string;
   doorCount: string;
-  catCount: string;
   heaviestCatWeight: string;
+  q3Score: number;
   q5Score: number;
   q6Score: number;
   q7Score: number;
@@ -31,15 +31,6 @@ interface AssessmentResultProps {
 export function AssessmentResult({ formData, totalScore, onReset }: AssessmentResultProps) {
   const resultRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
-
-  const getCatCountScore = () => {
-    const catCount = parseInt(formData.catCount) || 0;
-    if (catCount >= 6) return 4;
-    if (catCount >= 3) return 3;
-    if (catCount === 2) return 2;
-    if (catCount === 1) return 1;
-    return 0;
-  };
 
   const getRiskLevel = () => {
     if (totalScore <= 6) {
@@ -194,10 +185,6 @@ export function AssessmentResult({ formData, totalScore, onReset }: AssessmentRe
                   <span className="font-medium">{formData.doorCount} 個</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-muted-foreground">貓咪數量</span>
-                  <span className="font-medium">{formData.catCount} 隻</span>
-                </div>
-                <div className="flex justify-between">
                   <span className="text-muted-foreground">最重貓咪體重</span>
                   <span className="font-medium">{formData.heaviestCatWeight} Kg</span>
                 </div>
@@ -210,8 +197,8 @@ export function AssessmentResult({ formData, totalScore, onReset }: AssessmentRe
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between items-center">
                   <span className="text-muted-foreground">貓咪數量</span>
-                  <span className={`font-medium px-2 py-0.5 rounded ${getCatCountScore() >= 3 ? 'bg-risk-high/10 text-risk-high' : 'bg-secondary'}`}>
-                    {getCatCountScore()} 分
+                  <span className={`font-medium px-2 py-0.5 rounded ${formData.q3Score >= 3 ? 'bg-risk-high/10 text-risk-high' : 'bg-secondary'}`}>
+                    {formData.q3Score} 分
                   </span>
                 </div>
                 <div className="flex justify-between items-center">
