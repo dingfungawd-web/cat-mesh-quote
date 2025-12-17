@@ -9,8 +9,10 @@ import dfLogo from "@/assets/df-logo.jpg";
 
 interface FormData {
   address: string;
-  houseType: string;
+  buildingType: string;
+  floorLevel: string;
   windowCount: string;
+  doorCount: string;
   catCount: string;
   heaviestCatWeight: string;
   q5Score: number;
@@ -167,12 +169,20 @@ export function AssessmentResult({ formData, totalScore, onReset }: AssessmentRe
                   <span className="font-medium text-right max-w-[60%]">{formData.address}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-muted-foreground">戶型樓層</span>
-                  <span className="font-medium">{formData.houseType}</span>
+                  <span className="text-muted-foreground">戶型</span>
+                  <span className="font-medium">{formData.buildingType}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-muted-foreground">門窗數量</span>
+                  <span className="text-muted-foreground">樓層</span>
+                  <span className="font-medium">{formData.floorLevel}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">窗數量</span>
                   <span className="font-medium">{formData.windowCount} 個</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">門數量</span>
+                  <span className="font-medium">{formData.doorCount} 個</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">貓咪數量</span>
