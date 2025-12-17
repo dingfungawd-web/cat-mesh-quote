@@ -173,16 +173,60 @@ export function AssessmentForm() {
   const handleSubmit = async () => {
     setIsSubmitting(true);
     
-    // Simulate submission - in production, this would sync to Google Sheets
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    
-    toast({
-      title: "提交成功！",
-      description: "您的評估已成功提交，我們的團隊會盡快與您聯繫。",
-    });
-    
-    setIsSubmitting(false);
-    setIsSubmitted(true);
+    const totalScore = calculateTotalScore();
+    const getRiskLevel = (score: number) => {
+      if (score <= 6) return "穩定防護級別";
+      if (score <= 13) return "高度關注級別";
+      return "極高風險/專業顧問級別";
+    };
+
+    const payload = {
+      timestamp: new Date().toLocaleString("zh-HK"),
+      address: formData.address,
+      floor: formData.floorLevel,
+      buildingType: formData.buildingType,
+      windowCount: formData.windowCount,
+      doorCount: formData.doorCount,
+      heaviestCatWeight: formData.heaviestCatWeight,
+      q3Score: formData.q3Score,
+      q5Score: formData.q5Score,
+      q6Score: formData.q6Score,
+      q7Score: formData.q7Score,
+      q8Score: formData.q8Score,
+      q9Score: formData.q9Score,
+      totalScore: totalScore,
+      riskLevel: getRiskLevel(totalScore),
+    };
+
+    try {
+      await fetch(
+        "https://script.google.com/macros/s/AKfycbwM2k5r3IAm6TdpT3wtiLITBCQGpxJ1r1NDsjuPRECRO-LbubCLSRatmx-F9Afas0IsDg/exec",
+        {
+          method: "POST",
+          mode: "no-cors",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload),
+        }
+      );
+
+      toast({
+        title: "提交成功！",
+        description: "您的評估已成功提交，我們的團隊會盡快與您聯繫。",
+      });
+      
+      setIsSubmitted(true);
+    } catch (error) {
+      console.error("Sync error:", error);
+      toast({
+        title: "提交失敗",
+        description: "請稍後再試或聯繫我們",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleReset = () => {
