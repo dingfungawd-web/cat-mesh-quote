@@ -100,7 +100,7 @@ export function AssessmentForm() {
   const { toast } = useToast();
 
   const totalSteps = 3;
-  const progress = ((step + 1) / totalSteps) * 100;
+  const progress = (step / totalSteps) * 100;
 
   const updateFormData = (field: keyof FormData, value: string | number) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
