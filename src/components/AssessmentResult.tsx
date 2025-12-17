@@ -32,39 +32,48 @@ export function AssessmentResult({ formData, totalScore, onReset }: AssessmentRe
   const resultRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
 
+  const getCatCountScore = () => {
+    const catCount = parseInt(formData.catCount) || 0;
+    if (catCount >= 6) return 4;
+    if (catCount >= 3) return 3;
+    if (catCount === 2) return 2;
+    if (catCount === 1) return 1;
+    return 0;
+  };
+
   const getRiskLevel = () => {
-    if (totalScore <= 4) {
+    if (totalScore <= 6) {
       return {
         level: "low",
-        label: "低風險用戶",
+        label: "【藍標：穩定防護級別】",
         color: "bg-risk-low",
         textColor: "text-risk-low",
         borderColor: "border-risk-low",
         icon: Shield,
         description:
-          "您的貓咪生活環境相對安全。我們的標準防貓網方案已能提供頂級防護，度尺時我們將提供最佳美觀建議。",
+          "您的居家環境風險較低。我們建議選用 DF 標準系列，已足以提供穩固的安全保障。",
       };
-    } else if (totalScore <= 10) {
+    } else if (totalScore <= 13) {
       return {
         level: "medium",
-        label: "中度關注用戶",
+        label: "【黃標：高度關注級別】",
         color: "bg-risk-medium",
         textColor: "text-risk-medium",
         borderColor: "border-risk-medium",
         icon: AlertTriangle,
         description:
-          "您的貓咪有部分活躍行為，或者窗戶結構有輕微老化。我們建議選用加固版防貓網或專用網身，度尺時師傅將重點檢查結構並給予加固方案。",
+          "您的貓咪數量或行為顯示出中度風險。我們強烈建議選用「加固型專業網」並配合強化鎖扣。",
       };
     } else {
       return {
         level: "high",
-        label: "高風險用戶",
+        label: "【紅標：極高風險 / 專業顧問級別】",
         color: "bg-risk-high",
         textColor: "text-risk-high",
         borderColor: "border-risk-high",
         icon: AlertCircle,
         description:
-          "您的貓咪或家居環境存在多重高風險因素（如暴衝行為、窗鎖老化、期望用廉價方案）。我們將派出資深貓網安全顧問上門，我們強烈建議您選用最高安全規格的「DF Pro 級別」方案。",
+          "您的家庭屬於極高風險類別。多貓環境或活躍性格需要最高規格的「DF Pro 鋼鐵守護系列」。",
       };
     }
   };
@@ -148,7 +157,7 @@ export function AssessmentResult({ formData, totalScore, onReset }: AssessmentRe
                   {risk.label}
                 </span>
                 <span className="text-2xl md:text-3xl font-bold">{totalScore} 分</span>
-                <span className="text-sm text-muted-foreground">/ 21 分</span>
+                <span className="text-sm text-muted-foreground">/ 25 分</span>
               </div>
               <p className="text-sm md:text-base text-foreground leading-relaxed">{risk.description}</p>
             </div>
@@ -199,6 +208,12 @@ export function AssessmentResult({ formData, totalScore, onReset }: AssessmentRe
             <div className="space-y-3">
               <h3 className="text-sm font-medium text-muted-foreground border-b border-border pb-2">評分明細</h3>
               <div className="space-y-2 text-sm">
+                <div className="flex justify-between items-center">
+                  <span className="text-muted-foreground">貓咪數量</span>
+                  <span className={`font-medium px-2 py-0.5 rounded ${getCatCountScore() >= 3 ? 'bg-risk-high/10 text-risk-high' : 'bg-secondary'}`}>
+                    {getCatCountScore()} 分
+                  </span>
+                </div>
                 <div className="flex justify-between items-center">
                   <span className="text-muted-foreground">窗邊行為模式</span>
                   <span className={`font-medium px-2 py-0.5 rounded ${formData.q5Score >= 2 ? 'bg-risk-high/10 text-risk-high' : 'bg-secondary'}`}>
