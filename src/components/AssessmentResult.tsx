@@ -1,10 +1,11 @@
 import { useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Download, RotateCcw, Shield, AlertTriangle, AlertCircle, Cat } from "lucide-react";
+import { Download, RotateCcw, Shield, AlertTriangle, AlertCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
+import dfLogo from "@/assets/df-logo.jpg";
 
 interface FormData {
   address: string;
@@ -115,14 +116,16 @@ export function AssessmentResult({ formData, totalScore, onReset }: AssessmentRe
       <div ref={resultRef} className="space-y-6 bg-background p-1">
         {/* Header */}
         <Card className="p-6 md:p-8 shadow-lg overflow-hidden relative">
-          <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-full -translate-y-1/2 translate-x-1/2" />
+          <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full -translate-y-1/2 translate-x-1/2" />
           <div className="relative">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
-                <Cat className="w-6 h-6 text-primary" />
-              </div>
+            <div className="flex items-center gap-4 mb-4">
+              <img 
+                src={dfLogo} 
+                alt="DF 創意家居" 
+                className="h-14 w-auto object-contain"
+              />
               <div>
-                <h1 className="text-xl md:text-2xl font-bold">DF 貓咪居家安全評估報告</h1>
+                <h1 className="text-xl md:text-2xl font-bold">貓咪居家安全評估報告</h1>
                 <p className="text-sm text-muted-foreground">
                   評估日期：{new Date().toLocaleDateString("zh-HK")}
                 </p>
