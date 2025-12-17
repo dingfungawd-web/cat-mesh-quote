@@ -106,8 +106,18 @@ export function AssessmentForm() {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
+  const calculateCatCountScore = () => {
+    const catCount = parseInt(formData.catCount) || 0;
+    if (catCount >= 6) return 4;
+    if (catCount >= 3) return 3;
+    if (catCount === 2) return 2;
+    if (catCount === 1) return 1;
+    return 0;
+  };
+
   const calculateTotalScore = () => {
-    return formData.q5Score + formData.q6Score + formData.q7Score + formData.q8Score + formData.q9Score;
+    const catScore = calculateCatCountScore();
+    return catScore + formData.q5Score + formData.q6Score + formData.q7Score + formData.q8Score + formData.q9Score;
   };
 
   const isStep1Valid = () => {
