@@ -33,38 +33,41 @@ export function AssessmentResult({ formData, totalScore, onReset }: AssessmentRe
   const { toast } = useToast();
 
   const getRiskLevel = () => {
-    if (totalScore <= 5) {
+    if (totalScore <= 6) {
       return {
         level: "low",
-        label: "【藍標：穩定防護級別】",
+        label: "【穩健安全級別】",
         color: "bg-risk-low",
         textColor: "text-risk-low",
         borderColor: "border-risk-low",
         icon: Shield,
-        description:
-          "您的居家環境風險較低。我們建議選用 DF 標準系列，已足以提供穩固的安全保障。",
+        assessment: "根據您的初步評估，您的家居環境屬於「低風險」。您的貓咪性格較溫和，且家中環境穩定，發生突發衝擊的機會相對較低。",
+        recommendation: "選用 DF 標準系列防貓網已足以應付日常需要。雖然風險較低，但我們絕不掉以輕心。度尺師傅上門時，仍會重點檢查您的鋁窗螺絲及膠條是否有老化跡象，確保安裝基底穩固。",
+        advice: "「即使主子性格文靜，窗戶安全亦是防患未然。我們會確保安裝後的網面平整且受力均勻，給您最安心的防護。」",
       };
-    } else if (totalScore <= 11) {
+    } else if (totalScore <= 13) {
       return {
         level: "medium",
-        label: "【黃標：高度關注級別】",
+        label: "【加固防護級別】",
         color: "bg-risk-medium",
         textColor: "text-risk-medium",
         borderColor: "border-risk-medium",
         icon: AlertTriangle,
-        description:
-          "您的貓咪數量或行為顯示出中度風險。我們強烈建議選用「加固型專業網」並配合強化鎖扣。",
+        assessment: "注意！您的評估顯示家居存在「中度風險」。這通常與多貓家庭、貓咪性格較活潑（如喜愛抓網或跳躍）有關。一般的防蚊網結構在面對連續衝擊時，穩定性可能不足。",
+        recommendation: "我們強烈建議選用 DF 專業加固型鋼網。此方案會針對網面扣件及滑軌進行補強，並加裝專用的「防開安全鎖」，防止聰明的貓咪自行撥開網窗。",
+        advice: "「多貓環境下，網面的磨損與受壓是呈倍數增長的。度尺師傅會現場評估您的鋁窗軌道深度，為您制定一套具備『抗抓撓』及『高承重』的加固方案。」",
       };
     } else {
       return {
         level: "high",
-        label: "【紅標：極高風險 / 專業顧問級別】",
+        label: "【極高風險警告】",
         color: "bg-risk-high",
         textColor: "text-risk-high",
         borderColor: "border-risk-high",
         icon: AlertCircle,
-        description:
-          "您的家庭屬於極高風險類別。多貓環境或活躍性格需要最高規格的「DF Pro 鋼鐵守護系列」。",
+        assessment: "緊急預警！您的評估分數極高，屬於「極高風險類別」。這代表您的貓咪具備極強的破壞力或衝刺力（如暴衝習慣），或者您的窗戶結構已面臨老化風險。在這種情況下，傳統防蚊網絕對無法保障貓咪安全。",
+        recommendation: "必須選用最高規格的 DF Pro 鋼鐵守護系列。此系列採用高強度不鏽鋼網身及強化鋁合金框架，專為高空、多貓及極度活躍的貓咪設計。",
+        advice: "「作為專業的防貓網公司，我們必須坦誠告誡：您的情況若選用不當材料，極易發生意外。度尺師傅將派出高級顧問，現場進行壓力測試。如最終方案未能達到我們的安全標準，我們寧願拒絕施工，亦絕不拿貓咪生命冒險。」",
       };
     }
   };
@@ -139,17 +142,33 @@ export function AssessmentResult({ formData, totalScore, onReset }: AssessmentRe
         {/* Risk Level Card */}
         <Card className={`p-6 md:p-8 shadow-lg border-2 ${risk.borderColor}`}>
           <div className="flex items-start gap-4">
-            <div className={`w-14 h-14 rounded-full ${risk.color} flex items-center justify-center flex-shrink-0`}>
+            <div className={`w-14 h-14 rounded-full ${risk.color} flex items-center justify-center flex-shrink-0 ${risk.level === 'high' ? 'animate-warning-flash' : ''}`}>
               <RiskIcon className="w-7 h-7 text-white" />
             </div>
             <div className="flex-1">
-              <div className="flex flex-wrap items-center gap-3 mb-2">
+              <div className="flex flex-wrap items-center gap-3 mb-3">
                 <span className={`px-3 py-1 rounded-full text-sm font-semibold ${risk.color} text-white`}>
                   {risk.label}
                 </span>
                 <span className="text-2xl md:text-3xl font-bold">{totalScore}/19</span>
               </div>
-              <p className="text-sm md:text-base text-foreground leading-relaxed">{risk.description}</p>
+              
+              <div className="space-y-4">
+                <div>
+                  <h4 className="font-semibold text-sm mb-1">評估結果：</h4>
+                  <p className="text-sm text-foreground leading-relaxed">{risk.assessment}</p>
+                </div>
+                
+                <div>
+                  <h4 className="font-semibold text-sm mb-1">DF 專業建議：</h4>
+                  <p className="text-sm text-foreground leading-relaxed">{risk.recommendation}</p>
+                </div>
+                
+                <div className="bg-secondary/50 rounded-lg p-3">
+                  <h4 className="font-semibold text-sm mb-1">安全顧問叮囑：</h4>
+                  <p className="text-sm text-muted-foreground leading-relaxed italic">{risk.advice}</p>
+                </div>
+              </div>
             </div>
           </div>
         </Card>

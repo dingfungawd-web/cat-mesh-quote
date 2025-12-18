@@ -41,9 +41,9 @@
     --brand-black: 0 0% 10%;
     
     /* Risk colors */
-    --risk-low: 210 80% 50%;
-    --risk-medium: 45 93% 47%;
-    --risk-high: 358 82% 49%;
+    --risk-low: 142 71% 45%;
+    --risk-medium: 25 95% 53%;
+    --risk-high: 0 72% 40%;
 
     /* Gradients */
     --gradient-hero: linear-gradient(135deg, hsl(358 82% 49%) 0%, hsl(358 82% 40%) 100%);
@@ -175,4 +175,17 @@
 
 .animate-pulse-glow {
   animation: pulse-glow 2s ease-in-out infinite;
+}
+
+@keyframes warning-flash {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.animate-warning-flash {
+  animation: warning-flash 1s ease-in-out infinite;
 }
