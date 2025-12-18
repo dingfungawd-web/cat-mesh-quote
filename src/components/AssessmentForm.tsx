@@ -280,11 +280,11 @@ export function AssessmentForm() {
           <div className="space-y-5">
             <div>
               <Label htmlFor="address" className="text-sm font-medium">
-                預約度尺地址 <span className="text-destructive">*</span>
+                請輸入Whatsapp查詢的電話號碼 <span className="text-destructive">*</span>
               </Label>
               <Input
                 id="address"
-                placeholder="請輸入您的地址"
+                placeholder="請輸入您的電話號碼"
                 value={formData.address}
                 onChange={(e) => updateFormData("address", e.target.value)}
                 className="mt-1.5"
