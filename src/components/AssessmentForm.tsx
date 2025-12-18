@@ -72,11 +72,11 @@ const scoredQuestions = [
   },
   {
     id: "q7",
-    question: "六、您的貓咪性格屬於？",
+    question: "六、您最活潑的貓咪性格屬於？",
     options: [
       { value: 0, label: "0 分：安靜、年老、不愛跳躍" },
       { value: 1, label: "1 分：一般好動，喜歡在貓跳台上休息" },
-      { value: 2, label: "2 分：極度活躍，經常玩追逐遊戲或跑酷" },
+      { value: 2, label: "2 分：極度活躍，經常玩追逐遊戲或跑跳" },
       { value: 3, label: "3 分：有「暴衝」（Zoomies）或習慣高速衝撞的行為" },
     ],
   },
