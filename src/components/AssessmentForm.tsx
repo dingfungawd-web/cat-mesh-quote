@@ -46,8 +46,8 @@ const scoredQuestions = [
     options: [
       { value: 1, label: "1 分：1 隻" },
       { value: 2, label: "2 分：2 隻" },
-      { value: 3, label: "3 分：3 - 5 隻" },
-      { value: 4, label: "4 分：6 隻或以上" },
+      { value: 3, label: "3 隻" },
+      { value: 4, label: "4 隻或以上" },
     ],
   },
   {
