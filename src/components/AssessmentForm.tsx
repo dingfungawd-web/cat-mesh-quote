@@ -87,6 +87,7 @@ const scoredQuestions = [
       { value: 0, label: "0 分：無" },
       { value: 1, label: "1 分：貓跳台/櫃子緊鄰窗戶，貓咪可直接跳上窗台" },
       { value: 2, label: "2 分：家中經常有幼童或大型寵物，可能誤推防貓網" },
+      { value: 3, label: "3 分：以上兩點皆有" },
     ],
   },
   {
