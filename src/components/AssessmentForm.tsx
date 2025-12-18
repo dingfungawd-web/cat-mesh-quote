@@ -77,7 +77,7 @@ const scoredQuestions = [
       { value: 0, label: "0 分：安靜、年老、不愛跳躍" },
       { value: 1, label: "1 分：一般好動，喜歡在貓跳台上休息" },
       { value: 2, label: "2 分：極度活躍，經常玩追逐遊戲或跑跳" },
-      { value: 3, label: "3 分：有「暴衝」（Zoomies）或習慣高速衝撞的行為" },
+      { value: 3, label: "3 分：有「暴衝」或貓咪間打架追逐，可能高速衝撞窗口" },
     ],
   },
   {
@@ -87,7 +87,6 @@ const scoredQuestions = [
       { value: 0, label: "0 分：無" },
       { value: 1, label: "1 分：貓跳台/櫃子緊鄰窗戶，貓咪可直接跳上窗台" },
       { value: 2, label: "2 分：家中經常有幼童或大型寵物，可能誤推防貓網" },
-      { value: 3, label: "3 分：家中貓咪有「打架」或「爭奪地盤」，可能導致高速衝撞窗口" },
     ],
   },
   {
