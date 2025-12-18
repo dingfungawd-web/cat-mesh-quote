@@ -126,7 +126,6 @@ export function AssessmentForm() {
       formData.buildingType.trim() !== "" &&
       formData.floorLevel.trim() !== "" &&
       formData.windowCount.trim() !== "" &&
-      formData.doorCount.trim() !== "" &&
       formData.heaviestCatWeight.trim() !== ""
     );
   };
@@ -186,7 +185,7 @@ export function AssessmentForm() {
       floor: formData.floorLevel,
       buildingType: formData.buildingType,
       windowCount: formData.windowCount,
-      doorCount: formData.doorCount,
+      doorCount: formData.doorCount || "0",
       heaviestCatWeight: formData.heaviestCatWeight,
       q3Score: formData.q3Score,
       q5Score: formData.q5Score,
@@ -307,7 +306,7 @@ export function AssessmentForm() {
                     className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                   >
                     <option value="">請選擇</option>
-                    <option value="私人大廈">私人大廈</option>
+                    <option value="大廈">大廈</option>
                     <option value="村屋/別墅">村屋/別墅</option>
                   </select>
                 </div>
