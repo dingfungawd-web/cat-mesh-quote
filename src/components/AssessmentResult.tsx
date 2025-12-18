@@ -147,8 +147,7 @@ export function AssessmentResult({ formData, totalScore, onReset }: AssessmentRe
                 <span className={`px-3 py-1 rounded-full text-sm font-semibold ${risk.color} text-white`}>
                   {risk.label}
                 </span>
-                <span className="text-2xl md:text-3xl font-bold">{totalScore} 分</span>
-                <span className="text-sm text-muted-foreground">/ 25 分</span>
+                <span className="text-2xl md:text-3xl font-bold">{totalScore}/25</span>
               </div>
               <p className="text-sm md:text-base text-foreground leading-relaxed">{risk.description}</p>
             </div>
