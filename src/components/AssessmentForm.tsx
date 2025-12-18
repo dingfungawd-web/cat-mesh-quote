@@ -497,7 +497,7 @@ export function AssessmentForm() {
               <div className="pt-3 border-t border-border">
                 <div className="flex justify-between items-center">
                   <span className="font-medium">總分：</span>
-                  <span className="text-2xl font-bold text-primary">{calculateTotalScore()}/25</span>
+                  <span className="text-2xl font-bold text-primary">{calculateTotalScore()}/19</span>
                 </div>
               </div>
             </div>
