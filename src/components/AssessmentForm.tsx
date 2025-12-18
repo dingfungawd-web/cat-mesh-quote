@@ -280,7 +280,7 @@ export function AssessmentForm() {
           <div className="space-y-5">
             <div>
               <Label htmlFor="address" className="text-sm font-medium">
-                請輸入Whatsapp查詢的電話號碼 <span className="text-destructive">*</span>
+                請輸入你的Whatsapp電話號碼 <span className="text-destructive">*</span>
               </Label>
               <Input
                 id="address"
