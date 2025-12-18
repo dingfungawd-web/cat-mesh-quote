@@ -44,8 +44,8 @@ const scoredQuestions = [
     id: "q3",
     question: "三、家中的貓咪總數？",
     options: [
-      { value: 1, label: "1 分：1 隻" },
-      { value: 2, label: "2 分：2 隻" },
+      { value: 1, label: "1 隻" },
+      { value: 2, label: "2 隻" },
       { value: 3, label: "3 隻" },
       { value: 4, label: "4 隻或以上" },
     ],
