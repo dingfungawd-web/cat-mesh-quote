@@ -6,13 +6,13 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="bg-accent text-accent-foreground py-4 px-4">
+      <header className="bg-white py-4 px-4">
         <div className="container max-w-4xl mx-auto">
           <div className="flex items-center justify-center">
             <img 
               src={dfLogo} 
               alt="DF 創意家居" 
-              className="h-12 w-auto object-contain bg-white rounded p-1"
+              className="h-36 w-auto object-contain"
             />
           </div>
         </div>
