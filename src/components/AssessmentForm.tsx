@@ -174,8 +174,8 @@ export function AssessmentForm() {
     
     const totalScore = calculateTotalScore();
     const getRiskLevel = (score: number) => {
-      if (score <= 6) return "穩定防護級別";
-      if (score <= 13) return "高度關注級別";
+      if (score <= 5) return "穩定防護級別";
+      if (score <= 11) return "高度關注級別";
       return "極高風險/專業顧問級別";
     };
 

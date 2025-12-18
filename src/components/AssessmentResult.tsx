@@ -33,7 +33,7 @@ export function AssessmentResult({ formData, totalScore, onReset }: AssessmentRe
   const { toast } = useToast();
 
   const getRiskLevel = () => {
-    if (totalScore <= 6) {
+    if (totalScore <= 5) {
       return {
         level: "low",
         label: "【藍標：穩定防護級別】",
@@ -44,7 +44,7 @@ export function AssessmentResult({ formData, totalScore, onReset }: AssessmentRe
         description:
           "您的居家環境風險較低。我們建議選用 DF 標準系列，已足以提供穩固的安全保障。",
       };
-    } else if (totalScore <= 13) {
+    } else if (totalScore <= 11) {
       return {
         level: "medium",
         label: "【黃標：高度關注級別】",
