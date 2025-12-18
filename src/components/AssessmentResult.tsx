@@ -164,7 +164,7 @@ export function AssessmentResult({ formData, totalScore, onReset }: AssessmentRe
               <h3 className="text-sm font-medium text-muted-foreground border-b border-border pb-2">基本資料</h3>
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between">
-                  <span className="text-muted-foreground">地址</span>
+                  <span className="text-muted-foreground">Whatsapp電話號碼</span>
                   <span className="font-medium text-right max-w-[60%]">{formData.address}</span>
                 </div>
                 <div className="flex justify-between">
