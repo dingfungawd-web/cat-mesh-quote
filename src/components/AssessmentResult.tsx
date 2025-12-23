@@ -66,7 +66,7 @@ export function AssessmentResult({ formData, totalScore, onReset }: AssessmentRe
         borderColor: "border-risk-high",
         icon: AlertCircle,
         assessment: "緊急預警！您的評估分數極高，屬於「極高風險類別」。這代表您的貓咪具備極強的破壞力或衝刺力（如暴衝習慣），或者您的窗戶結構已面臨老化風險。在這種情況下，傳統防蚊網絕對無法保障貓咪安全。",
-        recommendation: "必須選用最高規格的 DF Pro 鋼鐵守護系列。此系列採用高強度不鏽鋼網身及強化鋁合金框架，專為高空、多貓及極度活躍的貓咪設計。",
+        recommendation: "必須選用最高規格的 DF Pro 守護系列。此系列採用高強度不鏽鋼網身及強化鋁合金框架，專為高空、多貓及極度活躍的貓咪設計。",
         advice: "「作為專業的防貓網公司，我們必須坦誠告誡：您的情況若選用不當材料，極易發生意外。度尺師傅將派出高級顧問，現場進行壓力測試。如最終方案未能達到我們的安全標準，我們寧願拒絕施工，亦絕不拿貓咪生命冒險。」",
       };
     }
