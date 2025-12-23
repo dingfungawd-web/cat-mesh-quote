@@ -54,7 +54,7 @@ export function AssessmentResult({ formData, totalScore, onReset }: AssessmentRe
         borderColor: "border-risk-medium",
         icon: AlertTriangle,
         assessment: "注意！您的評估顯示家居存在「中度風險」。這通常與多貓家庭、貓咪性格較活潑（如喜愛抓網或跳躍）有關。一般的防蚊網結構在面對連續衝擊時，穩定性可能不足。",
-        recommendation: "我們強烈建議選用 DF 專業加固型鋼網。此方案會針對網面扣件及滑軌進行補強，並加裝專用的「防開安全鎖」，防止聰明的貓咪自行撥開網窗。",
+        recommendation: "我們強烈建議選用 DF 專業系列防貓網。此方案會針對網面扣件及滑軌進行補強，並加裝專用的「防開安全鎖」，防止聰明的貓咪自行撥開網窗。",
         advice: "「多貓環境下，網面的磨損與受壓是呈倍數增長的。度尺師傅會現場評估您的鋁窗軌道深度，為您制定一套具備『抗抓撓』及『高承重』的加固方案。」",
       };
     } else {
