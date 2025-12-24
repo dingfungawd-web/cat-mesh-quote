@@ -254,6 +254,103 @@ export function AssessmentResult({ formData, totalScore, onReset }: AssessmentRe
           </div>
         </Card>
 
+        {/* Cat Breed Analysis */}
+        <Card className="p-6 md:p-8 shadow-lg">
+          <h2 className="text-lg font-semibold mb-4">🐱 貓種特徵分析</h2>
+          <p className="text-sm text-muted-foreground mb-4">
+            了解不同貓種的特性，有助於選擇最適合的防護方案。以下是香港常見的貓咪品種：
+          </p>
+          
+          <div className="grid gap-4 md:grid-cols-2">
+            {/* Active/High Energy Breeds */}
+            <div className="space-y-3">
+              <h3 className="text-sm font-medium text-risk-high border-b border-border pb-2">🔴 高活力品種（需加強防護）</h3>
+              <div className="space-y-2 text-sm">
+                <div className="p-3 bg-risk-high/5 rounded-lg border border-risk-high/20">
+                  <p className="font-medium">孟加拉貓 Bengal</p>
+                  <p className="text-muted-foreground text-xs">極度活躍、好奇心強、喜愛跳躍攀爬，衝擊力大</p>
+                </div>
+                <div className="p-3 bg-risk-high/5 rounded-lg border border-risk-high/20">
+                  <p className="font-medium">阿比西尼亞貓 Abyssinian</p>
+                  <p className="text-muted-foreground text-xs">活潑好動、喜歡探索高處、對窗外事物敏感</p>
+                </div>
+                <div className="p-3 bg-risk-high/5 rounded-lg border border-risk-high/20">
+                  <p className="font-medium">暹羅貓 Siamese</p>
+                  <p className="text-muted-foreground text-xs">聰明機靈、會嘗試開窗、情緒波動較大</p>
+                </div>
+                <div className="p-3 bg-risk-high/5 rounded-lg border border-risk-high/20">
+                  <p className="font-medium">緬因貓 Maine Coon</p>
+                  <p className="text-muted-foreground text-xs">體型龐大（可達10kg+）、力量強、撞擊力高</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Medium Energy Breeds */}
+            <div className="space-y-3">
+              <h3 className="text-sm font-medium text-risk-medium border-b border-border pb-2">🟠 中等活力品種（建議加固）</h3>
+              <div className="space-y-2 text-sm">
+                <div className="p-3 bg-risk-medium/5 rounded-lg border border-risk-medium/20">
+                  <p className="font-medium">英國短毛貓 British Shorthair</p>
+                  <p className="text-muted-foreground text-xs">體型壯實、平時溫和但會突然暴衝</p>
+                </div>
+                <div className="p-3 bg-risk-medium/5 rounded-lg border border-risk-medium/20">
+                  <p className="font-medium">美國短毛貓 American Shorthair</p>
+                  <p className="text-muted-foreground text-xs">性格活潑、好奇心強、喜歡追逐</p>
+                </div>
+                <div className="p-3 bg-risk-medium/5 rounded-lg border border-risk-medium/20">
+                  <p className="font-medium">蘇格蘭摺耳貓 Scottish Fold</p>
+                  <p className="text-muted-foreground text-xs">喜歡觀望窗外、偶爾會撲向窗戶</p>
+                </div>
+                <div className="p-3 bg-risk-medium/5 rounded-lg border border-risk-medium/20">
+                  <p className="font-medium">俄羅斯藍貓 Russian Blue</p>
+                  <p className="text-muted-foreground text-xs">敏感警覺、受驚時可能衝撞</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Calm Breeds */}
+            <div className="space-y-3">
+              <h3 className="text-sm font-medium text-risk-low border-b border-border pb-2">🟢 溫和品種（基本防護即可）</h3>
+              <div className="space-y-2 text-sm">
+                <div className="p-3 bg-risk-low/5 rounded-lg border border-risk-low/20">
+                  <p className="font-medium">波斯貓 Persian</p>
+                  <p className="text-muted-foreground text-xs">性格慵懶、活動量低、少攀爬</p>
+                </div>
+                <div className="p-3 bg-risk-low/5 rounded-lg border border-risk-low/20">
+                  <p className="font-medium">布偶貓 Ragdoll</p>
+                  <p className="text-muted-foreground text-xs">性格溫馴、放鬆、較少跳躍衝撞</p>
+                </div>
+                <div className="p-3 bg-risk-low/5 rounded-lg border border-risk-low/20">
+                  <p className="font-medium">異國短毛貓 Exotic Shorthair</p>
+                  <p className="text-muted-foreground text-xs">溫和安靜、活動量較低</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Mixed Breeds */}
+            <div className="space-y-3">
+              <h3 className="text-sm font-medium text-muted-foreground border-b border-border pb-2">🐈 唐貓 / 混種貓</h3>
+              <div className="space-y-2 text-sm">
+                <div className="p-3 bg-secondary/50 rounded-lg border border-border">
+                  <p className="font-medium">唐貓 Domestic Cat</p>
+                  <p className="text-muted-foreground text-xs">性格多變、視乎個體差異，建議依實際行為評估</p>
+                </div>
+                <div className="p-3 bg-secondary/50 rounded-lg border border-border">
+                  <p className="font-medium">領養貓 Rescue Cat</p>
+                  <p className="text-muted-foreground text-xs">可能有創傷經歷、受驚時反應較大，建議加強防護</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-4 p-3 bg-primary/5 rounded-lg border border-primary/20">
+            <p className="text-xs text-muted-foreground">
+              <strong className="text-foreground">⚠️ 重要提示：</strong>
+              以上僅供參考，每隻貓咪都有獨特性格。無論品種如何，我們的度尺師傅會根據您家中貓咪的實際行為表現，制定最合適的防護方案。
+            </p>
+          </div>
+        </Card>
+
         {/* Footer Message */}
         <Card className="p-6 md:p-8 shadow-lg bg-gradient-card">
           <div className="text-center space-y-3">
