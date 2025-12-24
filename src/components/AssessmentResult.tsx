@@ -29,7 +29,6 @@ interface AssessmentResultProps {
 }
 
 export function AssessmentResult({ formData, totalScore, onReset }: AssessmentResultProps) {
-  const resultRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
 
   const getRiskLevel = () => {
@@ -75,22 +74,19 @@ export function AssessmentResult({ formData, totalScore, onReset }: AssessmentRe
   const risk = getRiskLevel();
   const RiskIcon = risk.icon;
 
+  const page1Ref = useRef<HTMLDivElement>(null);
+  const page2Ref = useRef<HTMLDivElement>(null);
+  const page3Ref = useRef<HTMLDivElement>(null);
+
   const handleExportPDF = async () => {
-    if (!resultRef.current) return;
+    if (!page1Ref.current || !page2Ref.current || !page3Ref.current) return;
 
     toast({
       title: "正在生成 PDF...",
-      description: "請稍候",
+      description: "請稍候，正在生成3頁報告",
     });
 
     try {
-      const canvas = await html2canvas(resultRef.current, {
-        scale: 2,
-        useCORS: true,
-        logging: false,
-      });
-
-      const imgData = canvas.toDataURL("image/png");
       const pdf = new jsPDF({
         orientation: "portrait",
         unit: "mm",
@@ -98,14 +94,48 @@ export function AssessmentResult({ formData, totalScore, onReset }: AssessmentRe
       });
 
       const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+      const pdfHeight = pdf.internal.pageSize.getHeight();
 
-      pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+      // Page 1 - Main Report
+      const canvas1 = await html2canvas(page1Ref.current, {
+        scale: 2,
+        useCORS: true,
+        logging: false,
+        backgroundColor: "#ffffff",
+      });
+      const imgData1 = canvas1.toDataURL("image/png");
+      const imgHeight1 = (canvas1.height * pdfWidth) / canvas1.width;
+      pdf.addImage(imgData1, "PNG", 0, 0, pdfWidth, Math.min(imgHeight1, pdfHeight));
+
+      // Page 2 - Cat Breed Analysis
+      pdf.addPage();
+      const canvas2 = await html2canvas(page2Ref.current, {
+        scale: 2,
+        useCORS: true,
+        logging: false,
+        backgroundColor: "#ffffff",
+      });
+      const imgData2 = canvas2.toDataURL("image/png");
+      const imgHeight2 = (canvas2.height * pdfWidth) / canvas2.width;
+      pdf.addImage(imgData2, "PNG", 0, 0, pdfWidth, Math.min(imgHeight2, pdfHeight));
+
+      // Page 3 - Multi-Cat Behavior Analysis
+      pdf.addPage();
+      const canvas3 = await html2canvas(page3Ref.current, {
+        scale: 2,
+        useCORS: true,
+        logging: false,
+        backgroundColor: "#ffffff",
+      });
+      const imgData3 = canvas3.toDataURL("image/png");
+      const imgHeight3 = (canvas3.height * pdfWidth) / canvas3.width;
+      pdf.addImage(imgData3, "PNG", 0, 0, pdfWidth, Math.min(imgHeight3, pdfHeight));
+
       pdf.save(`DF貓咪居家安全評估_${formData.address}_${new Date().toLocaleDateString("zh-HK")}.pdf`);
 
       toast({
         title: "PDF 已下載",
-        description: "您的評估報告已成功匯出",
+        description: "您的3頁評估報告已成功匯出",
       });
     } catch (error) {
       toast({
@@ -118,19 +148,20 @@ export function AssessmentResult({ formData, totalScore, onReset }: AssessmentRe
 
   return (
     <div className="w-full max-w-2xl mx-auto animate-fade-in">
-      <div ref={resultRef} className="space-y-6 bg-background p-1">
+      {/* ===== PAGE 1: Main Assessment Report ===== */}
+      <div ref={page1Ref} className="space-y-4 bg-background p-4">
         {/* Header */}
-        <Card className="p-6 md:p-8 shadow-lg overflow-hidden relative">
+        <Card className="p-6 shadow-lg overflow-hidden relative">
           <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full -translate-y-1/2 translate-x-1/2" />
           <div className="relative">
-            <div className="flex items-center gap-4 mb-4">
+            <div className="flex items-center gap-4">
               <img 
                 src={dfLogo} 
                 alt="DF 創意家居" 
-                className="h-14 w-auto object-contain"
+                className="h-12 w-auto object-contain"
               />
               <div>
-                <h1 className="text-xl md:text-2xl font-bold">貓咪居家安全評估報告</h1>
+                <h1 className="text-xl font-bold">貓咪居家安全評估報告</h1>
                 <p className="text-sm text-muted-foreground">
                   評估日期：{new Date().toLocaleDateString("zh-HK")}
                 </p>
@@ -140,20 +171,20 @@ export function AssessmentResult({ formData, totalScore, onReset }: AssessmentRe
         </Card>
 
         {/* Risk Level Card */}
-        <Card className={`p-6 md:p-8 shadow-lg border-2 ${risk.borderColor}`}>
+        <Card className={`p-5 shadow-lg border-2 ${risk.borderColor}`}>
           <div className="flex items-start gap-4">
-            <div className={`w-14 h-14 rounded-full ${risk.color} flex items-center justify-center flex-shrink-0 ${risk.level === 'high' ? 'animate-warning-flash' : ''}`}>
-              <RiskIcon className="w-7 h-7 text-white" />
+            <div className={`w-12 h-12 rounded-full ${risk.color} flex items-center justify-center flex-shrink-0 ${risk.level === 'high' ? 'animate-warning-flash' : ''}`}>
+              <RiskIcon className="w-6 h-6 text-white" />
             </div>
             <div className="flex-1">
-              <div className="flex flex-wrap items-center gap-3 mb-3">
+              <div className="flex flex-wrap items-center gap-3 mb-2">
                 <span className={`px-3 py-1 rounded-full text-sm font-semibold ${risk.color} text-white`}>
                   {risk.label}
                 </span>
-                <span className="text-2xl md:text-3xl font-bold">{totalScore}/19</span>
+                <span className="text-2xl font-bold">{totalScore}/19</span>
               </div>
               
-              <div className="space-y-4">
+              <div className="space-y-3">
                 <div>
                   <h4 className="font-semibold text-sm mb-1">評估結果：</h4>
                   <p className="text-sm text-foreground leading-relaxed">{risk.assessment}</p>
@@ -164,9 +195,9 @@ export function AssessmentResult({ formData, totalScore, onReset }: AssessmentRe
                   <p className="text-sm text-foreground leading-relaxed">{risk.recommendation}</p>
                 </div>
                 
-                <div className="bg-secondary/50 rounded-lg p-3">
+                <div className="bg-secondary/50 rounded-lg p-2">
                   <h4 className="font-semibold text-sm mb-1">安全顧問叮囑：</h4>
-                  <p className="text-sm text-muted-foreground leading-relaxed italic">{risk.advice}</p>
+                  <p className="text-xs text-muted-foreground leading-relaxed italic">{risk.advice}</p>
                 </div>
               </div>
             </div>
@@ -174,14 +205,14 @@ export function AssessmentResult({ formData, totalScore, onReset }: AssessmentRe
         </Card>
 
         {/* Details Card */}
-        <Card className="p-6 md:p-8 shadow-lg">
-          <h2 className="text-lg font-semibold mb-4">評估詳情</h2>
+        <Card className="p-5 shadow-lg">
+          <h2 className="text-base font-semibold mb-3">評估詳情</h2>
           
-          <div className="grid gap-6 md:grid-cols-2">
+          <div className="grid gap-4 md:grid-cols-2">
             {/* Basic Info */}
-            <div className="space-y-3">
-              <h3 className="text-sm font-medium text-muted-foreground border-b border-border pb-2">基本資料</h3>
-              <div className="space-y-2 text-sm">
+            <div className="space-y-2">
+              <h3 className="text-xs font-medium text-muted-foreground border-b border-border pb-1">基本資料</h3>
+              <div className="space-y-1 text-xs">
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">Whatsapp電話號碼</span>
                   <span className="font-medium text-right max-w-[60%]">{formData.address}</span>
@@ -210,9 +241,9 @@ export function AssessmentResult({ formData, totalScore, onReset }: AssessmentRe
             </div>
 
             {/* Score Breakdown */}
-            <div className="space-y-3">
-              <h3 className="text-sm font-medium text-muted-foreground border-b border-border pb-2">評分明細</h3>
-              <div className="space-y-2 text-sm">
+            <div className="space-y-2">
+              <h3 className="text-xs font-medium text-muted-foreground border-b border-border pb-1">評分明細</h3>
+              <div className="space-y-1 text-xs">
                 <div className="flex justify-between items-center">
                   <span className="text-muted-foreground">貓咪數量</span>
                   <span className={`font-medium px-2 py-0.5 rounded ${formData.q3Score >= 3 ? 'bg-risk-high/10 text-risk-high' : 'bg-secondary'}`}>
@@ -254,167 +285,210 @@ export function AssessmentResult({ formData, totalScore, onReset }: AssessmentRe
           </div>
         </Card>
 
-        {/* Cat Breed Analysis */}
-        <Card className="p-6 md:p-8 shadow-lg">
-          <h2 className="text-lg font-semibold mb-4">🐱 貓種特徵分析</h2>
-          <p className="text-sm text-muted-foreground mb-4">
-            了解不同貓種的特性，有助於選擇最適合的防護方案。以下是香港常見的貓咪品種：
-          </p>
-          
-          <div className="grid gap-4 md:grid-cols-2">
+        {/* Footer Message */}
+        <Card className="p-4 shadow-lg bg-gradient-card">
+          <div className="text-center space-y-2">
+            <h3 className="font-semibold text-base">感謝您完成《DF 貓咪居家安全顧問問卷》</h3>
+            <p className="text-xs text-muted-foreground leading-relaxed max-w-lg mx-auto">
+              我們相信，作為全港領先的防貓網工程公司，我們的職責不僅是安裝一張網，更是
+              <strong className="text-foreground">成為您貓咪一生的守護顧問。</strong>
+            </p>
+            <p className="text-xs text-muted-foreground">
+              我們的專業團隊將會在預約時間準時上門，為您度身訂造「最安全」的守護方案。
+            </p>
+          </div>
+        </Card>
+      </div>
+
+      {/* Section Divider */}
+      <div className="my-8 text-center">
+        <div className="inline-flex items-center gap-3 px-4 py-2 bg-primary/10 rounded-full">
+          <span className="text-sm font-medium text-primary">📚 參考資料</span>
+        </div>
+      </div>
+
+      {/* ===== PAGE 2: Cat Breed Analysis ===== */}
+      <div ref={page2Ref} className="space-y-4 bg-background p-4">
+        <Card className="p-4 shadow-lg overflow-hidden relative">
+          <div className="flex items-center gap-3">
+            <img 
+              src={dfLogo} 
+              alt="DF 創意家居" 
+              className="h-8 w-auto object-contain"
+            />
+            <div>
+              <h2 className="text-base font-bold">參考資料（一）：貓種特徵分析</h2>
+              <p className="text-xs text-muted-foreground">了解不同貓種的特性，有助於選擇最適合的防護方案</p>
+            </div>
+          </div>
+        </Card>
+
+        <Card className="p-5 shadow-lg">
+          <div className="grid gap-3 md:grid-cols-2">
             {/* Active/High Energy Breeds */}
-            <div className="space-y-3">
-              <h3 className="text-sm font-medium text-risk-high border-b border-border pb-2">🔴 高活力品種（需加強防護）</h3>
-              <div className="space-y-2 text-sm">
-                <div className="p-3 bg-risk-high/5 rounded-lg border border-risk-high/20">
+            <div className="space-y-2">
+              <h3 className="text-xs font-medium text-risk-high border-b border-border pb-1">🔴 高活力品種（需加強防護）</h3>
+              <div className="space-y-1.5 text-xs">
+                <div className="p-2 bg-risk-high/5 rounded-lg border border-risk-high/20">
                   <p className="font-medium">孟加拉貓 Bengal</p>
-                  <p className="text-muted-foreground text-xs">極度活躍、好奇心強、喜愛跳躍攀爬，衝擊力大</p>
+                  <p className="text-muted-foreground text-[10px]">極度活躍、好奇心強、喜愛跳躍攀爬，衝擊力大</p>
                 </div>
-                <div className="p-3 bg-risk-high/5 rounded-lg border border-risk-high/20">
+                <div className="p-2 bg-risk-high/5 rounded-lg border border-risk-high/20">
                   <p className="font-medium">阿比西尼亞貓 Abyssinian</p>
-                  <p className="text-muted-foreground text-xs">活潑好動、喜歡探索高處、對窗外事物敏感</p>
+                  <p className="text-muted-foreground text-[10px]">活潑好動、喜歡探索高處、對窗外事物敏感</p>
                 </div>
-                <div className="p-3 bg-risk-high/5 rounded-lg border border-risk-high/20">
+                <div className="p-2 bg-risk-high/5 rounded-lg border border-risk-high/20">
                   <p className="font-medium">暹羅貓 Siamese</p>
-                  <p className="text-muted-foreground text-xs">聰明機靈、會嘗試開窗、情緒波動較大</p>
+                  <p className="text-muted-foreground text-[10px]">聰明機靈、會嘗試開窗、情緒波動較大</p>
                 </div>
-                <div className="p-3 bg-risk-high/5 rounded-lg border border-risk-high/20">
+                <div className="p-2 bg-risk-high/5 rounded-lg border border-risk-high/20">
                   <p className="font-medium">緬因貓 Maine Coon</p>
-                  <p className="text-muted-foreground text-xs">體型龐大（可達10kg+）、力量強、撞擊力高</p>
+                  <p className="text-muted-foreground text-[10px]">體型龐大（可達10kg+）、力量強、撞擊力高</p>
                 </div>
               </div>
             </div>
 
             {/* Medium Energy Breeds */}
-            <div className="space-y-3">
-              <h3 className="text-sm font-medium text-risk-medium border-b border-border pb-2">🟠 中等活力品種（建議加固）</h3>
-              <div className="space-y-2 text-sm">
-                <div className="p-3 bg-risk-medium/5 rounded-lg border border-risk-medium/20">
+            <div className="space-y-2">
+              <h3 className="text-xs font-medium text-risk-medium border-b border-border pb-1">🟠 中等活力品種（建議加固）</h3>
+              <div className="space-y-1.5 text-xs">
+                <div className="p-2 bg-risk-medium/5 rounded-lg border border-risk-medium/20">
                   <p className="font-medium">英國短毛貓 British Shorthair</p>
-                  <p className="text-muted-foreground text-xs">體型壯實、平時溫和但會突然暴衝</p>
+                  <p className="text-muted-foreground text-[10px]">體型壯實、平時溫和但會突然暴衝</p>
                 </div>
-                <div className="p-3 bg-risk-medium/5 rounded-lg border border-risk-medium/20">
+                <div className="p-2 bg-risk-medium/5 rounded-lg border border-risk-medium/20">
                   <p className="font-medium">美國短毛貓 American Shorthair</p>
-                  <p className="text-muted-foreground text-xs">性格活潑、好奇心強、喜歡追逐</p>
+                  <p className="text-muted-foreground text-[10px]">性格活潑、好奇心強、喜歡追逐</p>
                 </div>
-                <div className="p-3 bg-risk-medium/5 rounded-lg border border-risk-medium/20">
+                <div className="p-2 bg-risk-medium/5 rounded-lg border border-risk-medium/20">
                   <p className="font-medium">蘇格蘭摺耳貓 Scottish Fold</p>
-                  <p className="text-muted-foreground text-xs">喜歡觀望窗外、偶爾會撲向窗戶</p>
+                  <p className="text-muted-foreground text-[10px]">喜歡觀望窗外、偶爾會撲向窗戶</p>
                 </div>
-                <div className="p-3 bg-risk-medium/5 rounded-lg border border-risk-medium/20">
+                <div className="p-2 bg-risk-medium/5 rounded-lg border border-risk-medium/20">
                   <p className="font-medium">俄羅斯藍貓 Russian Blue</p>
-                  <p className="text-muted-foreground text-xs">敏感警覺、受驚時可能衝撞</p>
+                  <p className="text-muted-foreground text-[10px]">敏感警覺、受驚時可能衝撞</p>
                 </div>
               </div>
             </div>
 
             {/* Calm Breeds */}
-            <div className="space-y-3">
-              <h3 className="text-sm font-medium text-risk-low border-b border-border pb-2">🟢 溫和品種（基本防護即可）</h3>
-              <div className="space-y-2 text-sm">
-                <div className="p-3 bg-risk-low/5 rounded-lg border border-risk-low/20">
+            <div className="space-y-2">
+              <h3 className="text-xs font-medium text-risk-low border-b border-border pb-1">🟢 溫和品種（基本防護即可）</h3>
+              <div className="space-y-1.5 text-xs">
+                <div className="p-2 bg-risk-low/5 rounded-lg border border-risk-low/20">
                   <p className="font-medium">波斯貓 Persian</p>
-                  <p className="text-muted-foreground text-xs">性格慵懶、活動量低、少攀爬</p>
+                  <p className="text-muted-foreground text-[10px]">性格慵懶、活動量低、少攀爬</p>
                 </div>
-                <div className="p-3 bg-risk-low/5 rounded-lg border border-risk-low/20">
+                <div className="p-2 bg-risk-low/5 rounded-lg border border-risk-low/20">
                   <p className="font-medium">布偶貓 Ragdoll</p>
-                  <p className="text-muted-foreground text-xs">性格溫馴、放鬆、較少跳躍衝撞</p>
+                  <p className="text-muted-foreground text-[10px]">性格溫馴、放鬆、較少跳躍衝撞</p>
                 </div>
-                <div className="p-3 bg-risk-low/5 rounded-lg border border-risk-low/20">
+                <div className="p-2 bg-risk-low/5 rounded-lg border border-risk-low/20">
                   <p className="font-medium">異國短毛貓 Exotic Shorthair</p>
-                  <p className="text-muted-foreground text-xs">溫和安靜、活動量較低</p>
+                  <p className="text-muted-foreground text-[10px]">溫和安靜、活動量較低</p>
                 </div>
               </div>
             </div>
 
             {/* Mixed Breeds */}
-            <div className="space-y-3">
-              <h3 className="text-sm font-medium text-muted-foreground border-b border-border pb-2">🐈 唐貓 / 混種貓</h3>
-              <div className="space-y-2 text-sm">
-                <div className="p-3 bg-secondary/50 rounded-lg border border-border">
+            <div className="space-y-2">
+              <h3 className="text-xs font-medium text-muted-foreground border-b border-border pb-1">🐈 唐貓 / 混種貓</h3>
+              <div className="space-y-1.5 text-xs">
+                <div className="p-2 bg-secondary/50 rounded-lg border border-border">
                   <p className="font-medium">唐貓 Domestic Cat</p>
-                  <p className="text-muted-foreground text-xs">性格多變、視乎個體差異，建議依實際行為評估</p>
+                  <p className="text-muted-foreground text-[10px]">性格多變、視乎個體差異，建議依實際行為評估</p>
                 </div>
-                <div className="p-3 bg-secondary/50 rounded-lg border border-border">
+                <div className="p-2 bg-secondary/50 rounded-lg border border-border">
                   <p className="font-medium">領養貓 Rescue Cat</p>
-                  <p className="text-muted-foreground text-xs">可能有創傷經歷、受驚時反應較大，建議加強防護</p>
+                  <p className="text-muted-foreground text-[10px]">可能有創傷經歷、受驚時反應較大，建議加強防護</p>
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="mt-4 p-3 bg-primary/5 rounded-lg border border-primary/20">
-            <p className="text-xs text-muted-foreground">
+          <div className="mt-3 p-2 bg-primary/5 rounded-lg border border-primary/20">
+            <p className="text-[10px] text-muted-foreground">
               <strong className="text-foreground">⚠️ 重要提示：</strong>
               以上僅供參考，每隻貓咪都有獨特性格。無論品種如何，我們的度尺師傅會根據您家中貓咪的實際行為表現，制定最合適的防護方案。
             </p>
           </div>
         </Card>
+      </div>
 
-        {/* Multi-Cat Behavior Analysis */}
-        <Card className="p-6 md:p-8 shadow-lg">
-          <h2 className="text-lg font-semibold mb-4">🏠 多貓飼養行為分析</h2>
-          <p className="text-sm text-muted-foreground mb-4">
-            貓咪數量會直接影響家居安全風險。了解不同飼養情況下可能出現的行為問題，有助於預防意外發生。
-          </p>
-          
-          <div className="space-y-4">
+      {/* ===== PAGE 3: Multi-Cat Behavior Analysis ===== */}
+      <div ref={page3Ref} className="space-y-4 bg-background p-4 mt-6">
+        <Card className="p-4 shadow-lg overflow-hidden relative">
+          <div className="flex items-center gap-3">
+            <img 
+              src={dfLogo} 
+              alt="DF 創意家居" 
+              className="h-8 w-auto object-contain"
+            />
+            <div>
+              <h2 className="text-base font-bold">參考資料（二）：多貓飼養行為分析</h2>
+              <p className="text-xs text-muted-foreground">貓咪數量會直接影響家居安全風險</p>
+            </div>
+          </div>
+        </Card>
+
+        <Card className="p-5 shadow-lg">
+          <div className="space-y-3">
             {/* Single Cat */}
-            <div className="p-4 bg-risk-low/5 rounded-lg border border-risk-low/20">
+            <div className="p-3 bg-risk-low/5 rounded-lg border border-risk-low/20">
               <div className="flex items-start gap-3">
-                <div className="w-10 h-10 rounded-full bg-risk-low/20 flex items-center justify-center flex-shrink-0">
-                  <span className="text-lg">1️⃣</span>
+                <div className="w-8 h-8 rounded-full bg-risk-low/20 flex items-center justify-center flex-shrink-0">
+                  <span className="text-sm">1️⃣</span>
                 </div>
                 <div className="flex-1">
-                  <h3 className="font-medium text-risk-low mb-2">一隻貓飼養</h3>
-                  <div className="space-y-2 text-sm text-muted-foreground">
+                  <h3 className="font-medium text-risk-low text-sm mb-1">一隻貓飼養</h3>
+                  <div className="space-y-1 text-xs text-muted-foreground">
                     <p><strong className="text-foreground">常見行為：</strong></p>
-                    <ul className="list-disc list-inside space-y-1 ml-2">
+                    <ul className="list-disc list-inside space-y-0.5 ml-2 text-[11px]">
                       <li>獨處時間長，容易對窗外事物產生興趣</li>
                       <li>缺乏玩伴時，可能在窗邊長時間觀望飛鳥、昆蟲</li>
                       <li>較易發展出「獵人本能」，追逐窗外移動物體</li>
                       <li>主人外出時，可能因無聊而嘗試探索窗戶</li>
                     </ul>
-                    <p className="mt-2"><strong className="text-foreground">風險提示：</strong>單貓家庭雖較穩定，但貓咪獨處時的行為難以預測，仍需確保窗戶防護到位。</p>
+                    <p className="mt-1 text-[11px]"><strong className="text-foreground">風險提示：</strong>單貓家庭雖較穩定，但貓咪獨處時的行為難以預測，仍需確保窗戶防護到位。</p>
                   </div>
                 </div>
               </div>
             </div>
 
             {/* Two Cats */}
-            <div className="p-4 bg-risk-medium/5 rounded-lg border border-risk-medium/20">
+            <div className="p-3 bg-risk-medium/5 rounded-lg border border-risk-medium/20">
               <div className="flex items-start gap-3">
-                <div className="w-10 h-10 rounded-full bg-risk-medium/20 flex items-center justify-center flex-shrink-0">
-                  <span className="text-lg">2️⃣</span>
+                <div className="w-8 h-8 rounded-full bg-risk-medium/20 flex items-center justify-center flex-shrink-0">
+                  <span className="text-sm">2️⃣</span>
                 </div>
                 <div className="flex-1">
-                  <h3 className="font-medium text-risk-medium mb-2">兩隻貓飼養</h3>
-                  <div className="space-y-2 text-sm text-muted-foreground">
+                  <h3 className="font-medium text-risk-medium text-sm mb-1">兩隻貓飼養</h3>
+                  <div className="space-y-1 text-xs text-muted-foreground">
                     <p><strong className="text-foreground">常見行為：</strong></p>
-                    <ul className="list-disc list-inside space-y-1 ml-2">
+                    <ul className="list-disc list-inside space-y-0.5 ml-2 text-[11px]">
                       <li>互相追逐時容易「暴衝」，速度極快、方向難測</li>
                       <li>爭奪窗邊觀景位置，可能推撞對方</li>
                       <li>玩耍時可能同時撲向窗戶或網面</li>
                       <li>其中一隻受驚時，另一隻可能跟隨衝撞</li>
                       <li>建立地盤意識，窗邊成為「必爭之地」</li>
                     </ul>
-                    <p className="mt-2"><strong className="text-foreground">風險提示：</strong>兩貓互動產生的衝擊力是單貓的數倍，網面需承受更高強度的撞擊。</p>
+                    <p className="mt-1 text-[11px]"><strong className="text-foreground">風險提示：</strong>兩貓互動產生的衝擊力是單貓的數倍，網面需承受更高強度的撞擊。</p>
                   </div>
                 </div>
               </div>
             </div>
 
             {/* Multiple Cats */}
-            <div className="p-4 bg-risk-high/5 rounded-lg border border-risk-high/20">
+            <div className="p-3 bg-risk-high/5 rounded-lg border border-risk-high/20">
               <div className="flex items-start gap-3">
-                <div className="w-10 h-10 rounded-full bg-risk-high/20 flex items-center justify-center flex-shrink-0">
-                  <span className="text-lg">3️⃣+</span>
+                <div className="w-8 h-8 rounded-full bg-risk-high/20 flex items-center justify-center flex-shrink-0">
+                  <span className="text-sm">3️⃣+</span>
                 </div>
                 <div className="flex-1">
-                  <h3 className="font-medium text-risk-high mb-2">三隻或以上多貓飼養</h3>
-                  <div className="space-y-2 text-sm text-muted-foreground">
+                  <h3 className="font-medium text-risk-high text-sm mb-1">三隻或以上多貓飼養</h3>
+                  <div className="space-y-1 text-xs text-muted-foreground">
                     <p><strong className="text-foreground">常見行為：</strong></p>
-                    <ul className="list-disc list-inside space-y-1 ml-2">
+                    <ul className="list-disc list-inside space-y-0.5 ml-2 text-[11px]">
                       <li>群體追逐場面混亂，「連環暴衝」頻繁發生</li>
                       <li>貓咪之間可能產生衝突，打鬥時失控衝撞</li>
                       <li>地盤爭奪更激烈，窗邊區域壓力倍增</li>
@@ -422,30 +496,28 @@ export function AssessmentResult({ formData, totalScore, onReset }: AssessmentRe
                       <li>網面長期受多隻貓抓撓，磨損速度加快</li>
                       <li>新貓加入時適應期更易發生意外</li>
                     </ul>
-                    <p className="mt-2"><strong className="text-foreground">風險提示：</strong>多貓家庭屬於高風險類別，網面承受的壓力呈倍數增長，必須選用高強度防護方案。</p>
+                    <p className="mt-1 text-[11px]"><strong className="text-foreground">風險提示：</strong>多貓家庭屬於高風險類別，網面承受的壓力呈倍數增長，必須選用高強度防護方案。</p>
                   </div>
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="mt-4 p-3 bg-primary/5 rounded-lg border border-primary/20">
-            <p className="text-xs text-muted-foreground">
+          <div className="mt-3 p-2 bg-primary/5 rounded-lg border border-primary/20">
+            <p className="text-[10px] text-muted-foreground">
               <strong className="text-foreground">💡 專業建議：</strong>
               無論飼養多少隻貓，都應預留「安全餘量」。我們的度尺師傅會評估您家中貓咪的互動模式，確保防護方案能應對最壞情況。
             </p>
           </div>
         </Card>
 
-        {/* Footer Message */}
-        <Card className="p-6 md:p-8 shadow-lg bg-gradient-card">
-          <div className="text-center space-y-3">
-            <h3 className="font-semibold text-lg">感謝您完成《DF 貓咪居家安全顧問問卷》</h3>
-            <p className="text-sm text-muted-foreground leading-relaxed max-w-lg mx-auto">
-              我們相信，作為全港領先的防貓網工程公司，我們的職責不僅是安裝一張網，更是
-              <strong className="text-foreground">成為您貓咪一生的守護顧問。</strong>
+        {/* Footer for Page 3 */}
+        <Card className="p-4 shadow-lg bg-gradient-card">
+          <div className="text-center space-y-2">
+            <p className="text-xs text-muted-foreground">
+              © DF 創意家居 | 全港領先的防貓網工程公司
             </p>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-[10px] text-muted-foreground">
               我們的專業團隊將會在預約時間準時上門，為您度身訂造「最安全」的守護方案。
             </p>
           </div>
