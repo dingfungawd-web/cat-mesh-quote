@@ -351,6 +351,92 @@ export function AssessmentResult({ formData, totalScore, onReset }: AssessmentRe
           </div>
         </Card>
 
+        {/* Multi-Cat Behavior Analysis */}
+        <Card className="p-6 md:p-8 shadow-lg">
+          <h2 className="text-lg font-semibold mb-4">🏠 多貓飼養行為分析</h2>
+          <p className="text-sm text-muted-foreground mb-4">
+            貓咪數量會直接影響家居安全風險。了解不同飼養情況下可能出現的行為問題，有助於預防意外發生。
+          </p>
+          
+          <div className="space-y-4">
+            {/* Single Cat */}
+            <div className="p-4 bg-risk-low/5 rounded-lg border border-risk-low/20">
+              <div className="flex items-start gap-3">
+                <div className="w-10 h-10 rounded-full bg-risk-low/20 flex items-center justify-center flex-shrink-0">
+                  <span className="text-lg">1️⃣</span>
+                </div>
+                <div className="flex-1">
+                  <h3 className="font-medium text-risk-low mb-2">一隻貓飼養</h3>
+                  <div className="space-y-2 text-sm text-muted-foreground">
+                    <p><strong className="text-foreground">常見行為：</strong></p>
+                    <ul className="list-disc list-inside space-y-1 ml-2">
+                      <li>獨處時間長，容易對窗外事物產生興趣</li>
+                      <li>缺乏玩伴時，可能在窗邊長時間觀望飛鳥、昆蟲</li>
+                      <li>較易發展出「獵人本能」，追逐窗外移動物體</li>
+                      <li>主人外出時，可能因無聊而嘗試探索窗戶</li>
+                    </ul>
+                    <p className="mt-2"><strong className="text-foreground">風險提示：</strong>單貓家庭雖較穩定，但貓咪獨處時的行為難以預測，仍需確保窗戶防護到位。</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Two Cats */}
+            <div className="p-4 bg-risk-medium/5 rounded-lg border border-risk-medium/20">
+              <div className="flex items-start gap-3">
+                <div className="w-10 h-10 rounded-full bg-risk-medium/20 flex items-center justify-center flex-shrink-0">
+                  <span className="text-lg">2️⃣</span>
+                </div>
+                <div className="flex-1">
+                  <h3 className="font-medium text-risk-medium mb-2">兩隻貓飼養</h3>
+                  <div className="space-y-2 text-sm text-muted-foreground">
+                    <p><strong className="text-foreground">常見行為：</strong></p>
+                    <ul className="list-disc list-inside space-y-1 ml-2">
+                      <li>互相追逐時容易「暴衝」，速度極快、方向難測</li>
+                      <li>爭奪窗邊觀景位置，可能推撞對方</li>
+                      <li>玩耍時可能同時撲向窗戶或網面</li>
+                      <li>其中一隻受驚時，另一隻可能跟隨衝撞</li>
+                      <li>建立地盤意識，窗邊成為「必爭之地」</li>
+                    </ul>
+                    <p className="mt-2"><strong className="text-foreground">風險提示：</strong>兩貓互動產生的衝擊力是單貓的數倍，網面需承受更高強度的撞擊。</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Multiple Cats */}
+            <div className="p-4 bg-risk-high/5 rounded-lg border border-risk-high/20">
+              <div className="flex items-start gap-3">
+                <div className="w-10 h-10 rounded-full bg-risk-high/20 flex items-center justify-center flex-shrink-0">
+                  <span className="text-lg">3️⃣+</span>
+                </div>
+                <div className="flex-1">
+                  <h3 className="font-medium text-risk-high mb-2">三隻或以上多貓飼養</h3>
+                  <div className="space-y-2 text-sm text-muted-foreground">
+                    <p><strong className="text-foreground">常見行為：</strong></p>
+                    <ul className="list-disc list-inside space-y-1 ml-2">
+                      <li>群體追逐場面混亂，「連環暴衝」頻繁發生</li>
+                      <li>貓咪之間可能產生衝突，打鬥時失控衝撞</li>
+                      <li>地盤爭奪更激烈，窗邊區域壓力倍增</li>
+                      <li>「羊群效應」：一隻衝，全部跟著衝</li>
+                      <li>網面長期受多隻貓抓撓，磨損速度加快</li>
+                      <li>新貓加入時適應期更易發生意外</li>
+                    </ul>
+                    <p className="mt-2"><strong className="text-foreground">風險提示：</strong>多貓家庭屬於高風險類別，網面承受的壓力呈倍數增長，必須選用高強度防護方案。</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-4 p-3 bg-primary/5 rounded-lg border border-primary/20">
+            <p className="text-xs text-muted-foreground">
+              <strong className="text-foreground">💡 專業建議：</strong>
+              無論飼養多少隻貓，都應預留「安全餘量」。我們的度尺師傅會評估您家中貓咪的互動模式，確保防護方案能應對最壞情況。
+            </p>
+          </div>
+        </Card>
+
         {/* Footer Message */}
         <Card className="p-6 md:p-8 shadow-lg bg-gradient-card">
           <div className="text-center space-y-3">
