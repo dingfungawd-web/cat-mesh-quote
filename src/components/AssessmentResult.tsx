@@ -77,13 +77,14 @@ export function AssessmentResult({ formData, totalScore, onReset }: AssessmentRe
   const page1Ref = useRef<HTMLDivElement>(null);
   const page2Ref = useRef<HTMLDivElement>(null);
   const page3Ref = useRef<HTMLDivElement>(null);
+  const page4Ref = useRef<HTMLDivElement>(null);
 
   const handleExportPDF = async () => {
-    if (!page1Ref.current || !page2Ref.current || !page3Ref.current) return;
+    if (!page1Ref.current || !page2Ref.current || !page3Ref.current || !page4Ref.current) return;
 
     toast({
       title: "正在生成 PDF...",
-      description: "請稍候，正在生成3頁報告",
+      description: "請稍候，正在生成4頁報告",
     });
 
     try {
@@ -131,11 +132,23 @@ export function AssessmentResult({ formData, totalScore, onReset }: AssessmentRe
       const imgHeight3 = (canvas3.height * pdfWidth) / canvas3.width;
       pdf.addImage(imgData3, "PNG", 0, 0, pdfWidth, Math.min(imgHeight3, pdfHeight));
 
+      // Page 4 - Physical Impact Analysis
+      pdf.addPage();
+      const canvas4 = await html2canvas(page4Ref.current, {
+        scale: 2,
+        useCORS: true,
+        logging: false,
+        backgroundColor: "#ffffff",
+      });
+      const imgData4 = canvas4.toDataURL("image/png");
+      const imgHeight4 = (canvas4.height * pdfWidth) / canvas4.width;
+      pdf.addImage(imgData4, "PNG", 0, 0, pdfWidth, Math.min(imgHeight4, pdfHeight));
+
       pdf.save(`DF貓咪居家安全評估_${formData.address}_${new Date().toLocaleDateString("zh-HK")}.pdf`);
 
       toast({
         title: "PDF 已下載",
-        description: "您的3頁評估報告已成功匯出",
+        description: "您的4頁評估報告已成功匯出",
       });
     } catch (error) {
       toast({
@@ -511,7 +524,118 @@ export function AssessmentResult({ formData, totalScore, onReset }: AssessmentRe
           </div>
         </Card>
 
-        {/* Footer for Page 3 */}
+      </div>
+
+      {/* ===== PAGE 4: Physical Impact Analysis ===== */}
+      <div ref={page4Ref} className="space-y-4 bg-background p-4 mt-6">
+        <Card className="p-4 shadow-lg overflow-hidden relative">
+          <div className="flex items-center gap-3">
+            <img 
+              src={dfLogo} 
+              alt="DF 創意家居" 
+              className="h-8 w-auto object-contain"
+            />
+            <div>
+              <h2 className="text-base font-bold">參考資料（三）：物理實測對照</h2>
+              <p className="text-xs text-muted-foreground">以中型貓（體重中位數 4.5kg）為基準的衝擊力分析</p>
+            </div>
+          </div>
+        </Card>
+
+        <Card className="p-5 shadow-lg">
+          <div className="space-y-4">
+            <div className="text-center mb-4">
+              <p className="text-xs text-muted-foreground">
+                基準：中型貓體重中位數 <span className="font-bold text-foreground">4.5 kg</span>
+              </p>
+            </div>
+
+            {/* Impact Force Table */}
+            <div className="overflow-x-auto">
+              <table className="w-full text-xs border-collapse">
+                <thead>
+                  <tr className="bg-primary/10">
+                    <th className="border border-border p-2 text-left font-semibold">行為狀態</th>
+                    <th className="border border-border p-2 text-center font-semibold">體重倍數</th>
+                    <th className="border border-border p-2 text-center font-semibold">等效衝擊力</th>
+                    <th className="border border-border p-2 text-left font-semibold">說明</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr className="bg-risk-low/5">
+                    <td className="border border-border p-2">
+                      <div className="flex items-center gap-2">
+                        <span className="text-risk-low">🟢</span>
+                        <span className="font-medium">靜態站立 / 躺臥</span>
+                      </div>
+                    </td>
+                    <td className="border border-border p-2 text-center font-bold">1x</td>
+                    <td className="border border-border p-2 text-center">4.5 kg</td>
+                    <td className="border border-border p-2 text-muted-foreground">貓咪平靜地趴在網面上</td>
+                  </tr>
+                  <tr className="bg-risk-medium/5">
+                    <td className="border border-border p-2">
+                      <div className="flex items-center gap-2">
+                        <span className="text-risk-medium">🟠</span>
+                        <span className="font-medium">攀爬 / 跳躍落地</span>
+                      </div>
+                    </td>
+                    <td className="border border-border p-2 text-center font-bold">3-5x</td>
+                    <td className="border border-border p-2 text-center">13.5 - 22.5 kg</td>
+                    <td className="border border-border p-2 text-muted-foreground">貓咪跳上窗台或從高處跳落網面</td>
+                  </tr>
+                  <tr className="bg-risk-high/5">
+                    <td className="border border-border p-2">
+                      <div className="flex items-center gap-2">
+                        <span className="text-risk-high">🔴</span>
+                        <span className="font-medium">全速衝撞</span>
+                      </div>
+                    </td>
+                    <td className="border border-border p-2 text-center font-bold">8-12x</td>
+                    <td className="border border-border p-2 text-center">36 - 54 kg</td>
+                    <td className="border border-border p-2 text-muted-foreground">貓咪追逐獵物或受驚暴衝直撞網面</td>
+                  </tr>
+                  <tr className="bg-secondary/50">
+                    <td className="border border-border p-2">
+                      <div className="flex items-center gap-2">
+                        <span>🐾</span>
+                        <span className="font-medium">持續抓撓</span>
+                      </div>
+                    </td>
+                    <td className="border border-border p-2 text-center font-bold">2-4x</td>
+                    <td className="border border-border p-2 text-center">9 - 18 kg</td>
+                    <td className="border border-border p-2 text-muted-foreground">貓咪用爪抓網，產生集中點壓力</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            {/* Additional Notes */}
+            <div className="grid gap-3 md:grid-cols-2 mt-4">
+              <div className="p-3 bg-risk-high/5 rounded-lg border border-risk-high/20">
+                <h4 className="font-medium text-xs text-risk-high mb-1">⚠️ 極端情況</h4>
+                <p className="text-[10px] text-muted-foreground">
+                  多貓同時衝撞時，衝擊力會疊加。兩隻4.5kg貓同時暴衝可產生<strong className="text-foreground">超過100kg</strong>的瞬間衝擊力。
+                </p>
+              </div>
+              <div className="p-3 bg-primary/5 rounded-lg border border-primary/20">
+                <h4 className="font-medium text-xs text-primary mb-1">💡 抓撓損耗</h4>
+                <p className="text-[10px] text-muted-foreground">
+                  持續抓撓會造成網面局部疲勞，長期累積可使網面強度下降<strong className="text-foreground">30-50%</strong>。
+                </p>
+              </div>
+            </div>
+
+            <div className="p-2 bg-secondary/50 rounded-lg border border-border">
+              <p className="text-[10px] text-muted-foreground text-center">
+                <strong className="text-foreground">📊 數據來源：</strong>
+                根據國際貓科行為研究及 DF 創意家居多年實測數據整理
+              </p>
+            </div>
+          </div>
+        </Card>
+
+        {/* Footer for Page 4 */}
         <Card className="p-4 shadow-lg bg-gradient-card">
           <div className="text-center space-y-2">
             <p className="text-xs text-muted-foreground">
