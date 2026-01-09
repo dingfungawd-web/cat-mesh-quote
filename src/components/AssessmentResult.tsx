@@ -628,8 +628,7 @@ export function AssessmentResult({ formData, totalScore, onReset }: AssessmentRe
 
             <div className="p-2 bg-secondary/50 rounded-lg border border-border">
               <p className="text-[10px] text-muted-foreground text-center">
-                <strong className="text-foreground">📊 數據來源：</strong>
-                根據國際貓科行為研究及 DF 創意家居多年實測數據整理
+                📊 以上資料僅供資訊參考
               </p>
             </div>
           </div>
