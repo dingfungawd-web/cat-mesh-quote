@@ -628,7 +628,7 @@ export function AssessmentResult({ formData, totalScore, onReset }: AssessmentRe
 
             <div className="p-2 bg-secondary/50 rounded-lg border border-border">
               <p className="text-[10px] text-muted-foreground text-center">
-                📊 以上資料僅供資訊參考
+                📊 以上數據基於中型貓體重中位數估算，實際衝擊力會因貓咪品種、體型及個體行為差異而有所不同，僅供參考。
               </p>
             </div>
           </div>
