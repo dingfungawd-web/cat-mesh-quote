@@ -161,6 +161,13 @@ export function AssessmentResult({ formData, totalScore, onReset }: AssessmentRe
 
   return (
     <div className="w-full max-w-2xl mx-auto animate-fade-in">
+      {/* Scroll Hint Banner */}
+      <div className="mb-4 p-3 bg-primary/10 border border-primary/20 rounded-lg animate-pulse">
+        <p className="text-center text-sm font-medium text-primary">
+          ⬇️ 向下滾動至底部可匯出 PDF 報告 ⬇️
+        </p>
+      </div>
+
       {/* ===== PAGE 1: Main Assessment Report ===== */}
       <div ref={page1Ref} className="space-y-4 bg-background p-4">
         {/* Header */}
