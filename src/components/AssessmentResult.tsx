@@ -164,7 +164,7 @@ export function AssessmentResult({ formData, totalScore, onReset }: AssessmentRe
       {/* Scroll Hint Banner */}
       <div className="mb-4 p-3 bg-primary/10 border border-primary/20 rounded-lg animate-pulse">
         <p className="text-center text-sm font-medium text-primary">
-          ⬇️ 向下滾動至底部可匯出 PDF 報告 ⬇️
+          ⬇️ 請向下滾動至底部匯出 PDF 報告 ⬇️
         </p>
       </div>
 
