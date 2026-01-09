@@ -239,27 +239,27 @@ export function AssessmentResult({ formData, totalScore, onReset }: AssessmentRe
             <div className="border-b pb-3">
               <h3 className="text-sm font-semibold mb-2">{t("ref2.single")}</h3>
               <ul className="text-xs text-muted-foreground space-y-1">
-                <li>• 行為風險相對可控，主要風險來自貓咪自身的「探索本能」及「狩獵反應」</li>
-                <li>• 突發風險：見到雀鳥、昆蟲時的瞬間撲擊</li>
-                <li>• 建議：防貓網需承受單貓體重的 8-12 倍衝擊力</li>
+                <li>• {t("ref2.single.point1")}</li>
+                <li>• {t("ref2.single.point2")}</li>
+                <li>• {t("ref2.single.point3")}</li>
               </ul>
             </div>
             <div className="border-b pb-3">
               <h3 className="text-sm font-semibold mb-2">{t("ref2.double")}</h3>
               <ul className="text-xs text-muted-foreground space-y-1">
-                <li>• 社交追逐是最常見行為，一方逃跑另一方追趕，易形成高速衝撞</li>
-                <li>• 遊戲中可能同時撞擊同一位置，衝擊力疊加</li>
-                <li>• 領地爭奪時可能於窗邊發生「摔角」或「追打」</li>
-                <li>• 建議：防貓網需承受兩隻貓體重總和的 10-15 倍衝擊力</li>
+                <li>• {t("ref2.double.point1")}</li>
+                <li>• {t("ref2.double.point2")}</li>
+                <li>• {t("ref2.double.point3")}</li>
+                <li>• {t("ref2.double.point4")}</li>
               </ul>
             </div>
             <div>
               <h3 className="text-sm font-semibold mb-2">{t("ref2.multiple")}</h3>
               <ul className="text-xs text-muted-foreground space-y-1">
-                <li>• 「群體暴衝」：一隻貓驚嚇後，可能引發連鎖反應，多隻貓同時奔跑</li>
-                <li>• 社交等級競爭更頻繁，打架可能更激烈</li>
-                <li>• 同一窗口可能長期有多隻貓躺臥，增加靜態負荷</li>
-                <li>• 建議：防貓網需達到商業級別強度，並於高頻使用位置加固</li>
+                <li>• {t("ref2.multiple.point1")}</li>
+                <li>• {t("ref2.multiple.point2")}</li>
+                <li>• {t("ref2.multiple.point3")}</li>
+                <li>• {t("ref2.multiple.point4")}</li>
               </ul>
             </div>
             <div className="bg-secondary/50 rounded-lg p-3 mt-4">
@@ -316,8 +316,8 @@ export function AssessmentResult({ formData, totalScore, onReset }: AssessmentRe
                   </tr>
                   <tr className="border-b">
                     <td className="py-2">{t("ref3.scratch")}</td>
-                    <td className="text-center py-2">集中力</td>
-                    <td className="text-center py-2">~2-3 kg/cm²</td>
+                    <td className="text-center py-2">{t("ref3.scratchMultiplier")}</td>
+                    <td className="text-center py-2">{t("ref3.scratchImpact")}</td>
                     <td className="py-2 text-muted-foreground">{t("ref3.scratchDesc")}</td>
                   </tr>
                 </tbody>
