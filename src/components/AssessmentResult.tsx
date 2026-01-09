@@ -190,11 +190,11 @@ export function AssessmentResult({ formData, totalScore, onReset }: AssessmentRe
               <RiskIcon className="w-6 h-6 text-white" />
             </div>
             <div className="flex-1">
-              <div className="flex flex-wrap items-center gap-3 mb-2">
-                <span className={`px-3 py-1 rounded-full text-sm font-semibold ${risk.color} text-white`}>
+              <div className="mb-2">
+                <span className={`inline-block px-3 py-1 rounded-full text-sm font-semibold ${risk.color} text-white`}>
                   {risk.label}
                 </span>
-                <span className="text-2xl font-bold">{totalScore}/19</span>
+                <span className="text-2xl font-bold ml-3 align-middle">{totalScore}/19</span>
               </div>
               
               <div className="space-y-3">
@@ -256,44 +256,58 @@ export function AssessmentResult({ formData, totalScore, onReset }: AssessmentRe
             {/* Score Breakdown */}
             <div className="space-y-2">
               <h3 className="text-xs font-medium text-muted-foreground border-b border-border pb-1">評分明細</h3>
-              <div className="space-y-1 text-xs">
-                <div className="flex justify-between items-center">
-                  <span className="text-muted-foreground">貓咪數量</span>
-                  <span className={`font-medium px-2 py-0.5 rounded ${formData.q3Score >= 3 ? 'bg-risk-high/10 text-risk-high' : 'bg-secondary'}`}>
-                    {formData.q3Score} 分
-                  </span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-muted-foreground">窗邊行為模式</span>
-                  <span className={`font-medium px-2 py-0.5 rounded ${formData.q5Score >= 2 ? 'bg-risk-high/10 text-risk-high' : 'bg-secondary'}`}>
-                    {formData.q5Score} 分
-                  </span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-muted-foreground">窗戶結構習慣</span>
-                  <span className={`font-medium px-2 py-0.5 rounded ${formData.q6Score >= 2 ? 'bg-risk-high/10 text-risk-high' : 'bg-secondary'}`}>
-                    {formData.q6Score} 分
-                  </span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-muted-foreground">貓咪性格</span>
-                  <span className={`font-medium px-2 py-0.5 rounded ${formData.q7Score >= 2 ? 'bg-risk-high/10 text-risk-high' : 'bg-secondary'}`}>
-                    {formData.q7Score} 分
-                  </span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-muted-foreground">高危環境</span>
-                  <span className={`font-medium px-2 py-0.5 rounded ${formData.q8Score >= 2 ? 'bg-risk-high/10 text-risk-high' : 'bg-secondary'}`}>
-                    {formData.q8Score} 分
-                  </span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-muted-foreground">安裝預期</span>
-                  <span className={`font-medium px-2 py-0.5 rounded ${formData.q9Score >= 2 ? 'bg-risk-high/10 text-risk-high' : 'bg-secondary'}`}>
-                    {formData.q9Score} 分
-                  </span>
-                </div>
-              </div>
+              <table className="w-full text-xs">
+                <tbody>
+                  <tr>
+                    <td className="py-1 text-muted-foreground">貓咪數量</td>
+                    <td className="py-1 text-right">
+                      <span className={`font-medium px-2 py-0.5 rounded inline-block ${formData.q3Score >= 3 ? 'bg-risk-high/10 text-risk-high' : 'bg-secondary'}`}>
+                        {formData.q3Score} 分
+                      </span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="py-1 text-muted-foreground">窗邊行為模式</td>
+                    <td className="py-1 text-right">
+                      <span className={`font-medium px-2 py-0.5 rounded inline-block ${formData.q5Score >= 2 ? 'bg-risk-high/10 text-risk-high' : 'bg-secondary'}`}>
+                        {formData.q5Score} 分
+                      </span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="py-1 text-muted-foreground">窗戶結構習慣</td>
+                    <td className="py-1 text-right">
+                      <span className={`font-medium px-2 py-0.5 rounded inline-block ${formData.q6Score >= 2 ? 'bg-risk-high/10 text-risk-high' : 'bg-secondary'}`}>
+                        {formData.q6Score} 分
+                      </span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="py-1 text-muted-foreground">貓咪性格</td>
+                    <td className="py-1 text-right">
+                      <span className={`font-medium px-2 py-0.5 rounded inline-block ${formData.q7Score >= 2 ? 'bg-risk-high/10 text-risk-high' : 'bg-secondary'}`}>
+                        {formData.q7Score} 分
+                      </span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="py-1 text-muted-foreground">高危環境</td>
+                    <td className="py-1 text-right">
+                      <span className={`font-medium px-2 py-0.5 rounded inline-block ${formData.q8Score >= 2 ? 'bg-risk-high/10 text-risk-high' : 'bg-secondary'}`}>
+                        {formData.q8Score} 分
+                      </span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="py-1 text-muted-foreground">安裝預期</td>
+                    <td className="py-1 text-right">
+                      <span className={`font-medium px-2 py-0.5 rounded inline-block ${formData.q9Score >= 2 ? 'bg-risk-high/10 text-risk-high' : 'bg-secondary'}`}>
+                        {formData.q9Score} 分
+                      </span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
         </Card>
