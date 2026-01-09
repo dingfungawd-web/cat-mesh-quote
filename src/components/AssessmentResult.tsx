@@ -88,9 +88,6 @@ export function AssessmentResult({ formData, totalScore, onReset }: AssessmentRe
     });
 
     try {
-      // Avoid text baseline shift in canvas rendering
-      await (document as any).fonts?.ready;
-
       const pdf = new jsPDF({
         orientation: "portrait",
         unit: "mm",
@@ -100,42 +97,52 @@ export function AssessmentResult({ formData, totalScore, onReset }: AssessmentRe
       const pdfWidth = pdf.internal.pageSize.getWidth();
       const pdfHeight = pdf.internal.pageSize.getHeight();
 
-      const renderPage = async (el: HTMLElement) => {
-        return await html2canvas(
-          el,
-          {
-            scale: 3,
-            useCORS: true,
-            logging: false,
-            backgroundColor: "#ffffff",
-            windowWidth: el.scrollWidth,
-            windowHeight: el.scrollHeight,
-            scrollX: 0,
-            scrollY: 0,
-          } as any
-        );
-      };
-
-      const addCanvasToPdf = (canvas: HTMLCanvasElement) => {
-        const imgData = canvas.toDataURL("image/png");
-        const imgHeight = (canvas.height * pdfWidth) / canvas.width;
-        pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, Math.min(imgHeight, pdfHeight));
-      };
-
       // Page 1 - Main Report
-      addCanvasToPdf(await renderPage(page1Ref.current));
+      const canvas1 = await html2canvas(page1Ref.current, {
+        scale: 2,
+        useCORS: true,
+        logging: false,
+        backgroundColor: "#ffffff",
+      });
+      const imgData1 = canvas1.toDataURL("image/png");
+      const imgHeight1 = (canvas1.height * pdfWidth) / canvas1.width;
+      pdf.addImage(imgData1, "PNG", 0, 0, pdfWidth, Math.min(imgHeight1, pdfHeight));
 
       // Page 2 - Cat Breed Analysis
       pdf.addPage();
-      addCanvasToPdf(await renderPage(page2Ref.current));
+      const canvas2 = await html2canvas(page2Ref.current, {
+        scale: 2,
+        useCORS: true,
+        logging: false,
+        backgroundColor: "#ffffff",
+      });
+      const imgData2 = canvas2.toDataURL("image/png");
+      const imgHeight2 = (canvas2.height * pdfWidth) / canvas2.width;
+      pdf.addImage(imgData2, "PNG", 0, 0, pdfWidth, Math.min(imgHeight2, pdfHeight));
 
       // Page 3 - Multi-Cat Behavior Analysis
       pdf.addPage();
-      addCanvasToPdf(await renderPage(page3Ref.current));
+      const canvas3 = await html2canvas(page3Ref.current, {
+        scale: 2,
+        useCORS: true,
+        logging: false,
+        backgroundColor: "#ffffff",
+      });
+      const imgData3 = canvas3.toDataURL("image/png");
+      const imgHeight3 = (canvas3.height * pdfWidth) / canvas3.width;
+      pdf.addImage(imgData3, "PNG", 0, 0, pdfWidth, Math.min(imgHeight3, pdfHeight));
 
       // Page 4 - Physical Impact Analysis
       pdf.addPage();
-      addCanvasToPdf(await renderPage(page4Ref.current));
+      const canvas4 = await html2canvas(page4Ref.current, {
+        scale: 2,
+        useCORS: true,
+        logging: false,
+        backgroundColor: "#ffffff",
+      });
+      const imgData4 = canvas4.toDataURL("image/png");
+      const imgHeight4 = (canvas4.height * pdfWidth) / canvas4.width;
+      pdf.addImage(imgData4, "PNG", 0, 0, pdfWidth, Math.min(imgHeight4, pdfHeight));
 
       pdf.save(`DF貓咪居家安全評估_${formData.address}_${new Date().toLocaleDateString("zh-HK")}.pdf`);
 
@@ -183,13 +190,11 @@ export function AssessmentResult({ formData, totalScore, onReset }: AssessmentRe
               <RiskIcon className="w-6 h-6 text-white" />
             </div>
             <div className="flex-1">
-              <div className="mb-2">
-                <span
-                  className={`inline-flex h-9 items-center justify-center rounded-full px-4 text-sm font-semibold leading-none ${risk.color} text-white`}
-                >
+              <div className="flex flex-wrap items-center gap-3 mb-2">
+                <span className={`px-3 py-1 rounded-full text-sm font-semibold ${risk.color} text-white`}>
                   {risk.label}
                 </span>
-                <span className="ml-3 inline-flex h-9 items-center text-2xl font-bold leading-none">{totalScore}/19</span>
+                <span className="text-2xl font-bold">{totalScore}/19</span>
               </div>
               
               <div className="space-y-3">
@@ -251,82 +256,44 @@ export function AssessmentResult({ formData, totalScore, onReset }: AssessmentRe
             {/* Score Breakdown */}
             <div className="space-y-2">
               <h3 className="text-xs font-medium text-muted-foreground border-b border-border pb-1">評分明細</h3>
-              <table className="w-full text-xs">
-                <tbody>
-                  <tr>
-                    <td className="py-2 text-muted-foreground">貓咪數量</td>
-                    <td className="py-2 text-right">
-                      <span
-                        className={`inline-flex h-9 min-w-14 items-center justify-center rounded-md px-3 font-semibold leading-none ${
-                          formData.q3Score >= 3 ? "bg-risk-high/10 text-risk-high" : "bg-secondary text-foreground"
-                        }`}
-                      >
-                        {formData.q3Score} 分
-                      </span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="py-2 text-muted-foreground">窗邊行為模式</td>
-                    <td className="py-2 text-right">
-                      <span
-                        className={`inline-flex h-9 min-w-14 items-center justify-center rounded-md px-3 font-semibold leading-none ${
-                          formData.q5Score >= 2 ? "bg-risk-high/10 text-risk-high" : "bg-secondary text-foreground"
-                        }`}
-                      >
-                        {formData.q5Score} 分
-                      </span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="py-2 text-muted-foreground">窗戶結構習慣</td>
-                    <td className="py-2 text-right">
-                      <span
-                        className={`inline-flex h-9 min-w-14 items-center justify-center rounded-md px-3 font-semibold leading-none ${
-                          formData.q6Score >= 2 ? "bg-risk-high/10 text-risk-high" : "bg-secondary text-foreground"
-                        }`}
-                      >
-                        {formData.q6Score} 分
-                      </span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="py-2 text-muted-foreground">貓咪性格</td>
-                    <td className="py-2 text-right">
-                      <span
-                        className={`inline-flex h-9 min-w-14 items-center justify-center rounded-md px-3 font-semibold leading-none ${
-                          formData.q7Score >= 2 ? "bg-risk-high/10 text-risk-high" : "bg-secondary text-foreground"
-                        }`}
-                      >
-                        {formData.q7Score} 分
-                      </span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="py-2 text-muted-foreground">高危環境</td>
-                    <td className="py-2 text-right">
-                      <span
-                        className={`inline-flex h-9 min-w-14 items-center justify-center rounded-md px-3 font-semibold leading-none ${
-                          formData.q8Score >= 2 ? "bg-risk-high/10 text-risk-high" : "bg-secondary text-foreground"
-                        }`}
-                      >
-                        {formData.q8Score} 分
-                      </span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="py-2 text-muted-foreground">安裝預期</td>
-                    <td className="py-2 text-right">
-                      <span
-                        className={`inline-flex h-9 min-w-14 items-center justify-center rounded-md px-3 font-semibold leading-none ${
-                          formData.q9Score >= 2 ? "bg-risk-high/10 text-risk-high" : "bg-secondary text-foreground"
-                        }`}
-                      >
-                        {formData.q9Score} 分
-                      </span>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+              <div className="space-y-1 text-xs">
+                <div className="flex justify-between items-center">
+                  <span className="text-muted-foreground">貓咪數量</span>
+                  <span className={`font-medium px-2 py-0.5 rounded ${formData.q3Score >= 3 ? 'bg-risk-high/10 text-risk-high' : 'bg-secondary'}`}>
+                    {formData.q3Score} 分
+                  </span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-muted-foreground">窗邊行為模式</span>
+                  <span className={`font-medium px-2 py-0.5 rounded ${formData.q5Score >= 2 ? 'bg-risk-high/10 text-risk-high' : 'bg-secondary'}`}>
+                    {formData.q5Score} 分
+                  </span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-muted-foreground">窗戶結構習慣</span>
+                  <span className={`font-medium px-2 py-0.5 rounded ${formData.q6Score >= 2 ? 'bg-risk-high/10 text-risk-high' : 'bg-secondary'}`}>
+                    {formData.q6Score} 分
+                  </span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-muted-foreground">貓咪性格</span>
+                  <span className={`font-medium px-2 py-0.5 rounded ${formData.q7Score >= 2 ? 'bg-risk-high/10 text-risk-high' : 'bg-secondary'}`}>
+                    {formData.q7Score} 分
+                  </span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-muted-foreground">高危環境</span>
+                  <span className={`font-medium px-2 py-0.5 rounded ${formData.q8Score >= 2 ? 'bg-risk-high/10 text-risk-high' : 'bg-secondary'}`}>
+                    {formData.q8Score} 分
+                  </span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-muted-foreground">安裝預期</span>
+                  <span className={`font-medium px-2 py-0.5 rounded ${formData.q9Score >= 2 ? 'bg-risk-high/10 text-risk-high' : 'bg-secondary'}`}>
+                    {formData.q9Score} 分
+                  </span>
+                </div>
+              </div>
             </div>
           </div>
         </Card>
