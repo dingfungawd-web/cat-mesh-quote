@@ -41,7 +41,7 @@ export function AssessmentResult({ formData, totalScore, onReset }: AssessmentRe
         borderColor: "border-risk-low",
         icon: Shield,
         assessment: "根據您的初步評估，您的家居環境屬於「低風險」。您的貓咪性格較溫和，且家中環境穩定，發生突發衝擊的機會相對較低。",
-        recommendation: "選用 DF 標準系列防貓網已足以應付日常需要。雖然風險較低，但我們絕不掉以輕心。度尺師傅上門時，仍會重點檢查您的鋁窗螺絲及膠條是否有老化跡象，確保安裝基底穩固。",
+        recommendation: "選用 DF 標準系列防貓網已足以應付日常需要。雖然風險較低，但我們絕不掉以輕心。度尺師傅上門時，會因應你和貓貓的生活習慣，提供款式、位置和安裝的專業意見。",
         advice: "「即使主子性格文靜，窗戶安全亦是防患未然。我們會確保安裝後的網面平整且受力均勻，給您最安心的防護。」",
       };
     } else if (totalScore <= 13) {
@@ -52,9 +52,9 @@ export function AssessmentResult({ formData, totalScore, onReset }: AssessmentRe
         textColor: "text-risk-medium",
         borderColor: "border-risk-medium",
         icon: AlertTriangle,
-        assessment: "注意！您的評估顯示家居存在「中度風險」。這通常與多貓家庭、貓咪性格較活潑（如喜愛抓網或跳躍）有關。一般的防蚊網結構在面對連續衝擊時，穩定性可能不足。",
+        assessment: "注意！您的評估顯示家居存在「中度風險」。這通常與多貓家庭、貓咪性格較活潑（如喜愛抓網或跳躍）有關。沒有測試的防貓網結構在面對連續衝擊時，穩定性可能不足。",
         recommendation: "我們強烈建議選用 DF 專業系列防貓網。此方案會針對網面扣件及滑軌進行補強，並加裝專用的「防開安全鎖」，防止聰明的貓咪自行撥開網窗。",
-        advice: "「多貓環境下，網面的磨損與受壓是呈倍數增長的。度尺師傅會現場評估您的鋁窗軌道深度，為您制定一套具備『抗抓撓』及『高承重』的加固方案。」",
+        advice: "「多貓環境下，網面的磨損與受壓是呈倍數增長的。度尺師傅會現場評估您的家居設計和空間，為您制定一套具備『抗抓』及『高承重』的加固方案。」",
       };
     } else {
       return {
@@ -64,9 +64,9 @@ export function AssessmentResult({ formData, totalScore, onReset }: AssessmentRe
         textColor: "text-risk-high",
         borderColor: "border-risk-high",
         icon: AlertCircle,
-        assessment: "緊急預警！您的評估分數極高，屬於「極高風險類別」。這代表您的貓咪具備極強的破壞力或衝刺力（如暴衝習慣），或者您的窗戶結構已面臨老化風險。在這種情況下，傳統防蚊網絕對無法保障貓咪安全。",
-        recommendation: "必須選用最高規格的 DF Pro 守護系列。此系列採用高強度不鏽鋼網身及強化鋁合金框架，專為高空、多貓及極度活躍的貓咪設計。",
-        advice: "「作為專業的防貓網公司，我們必須坦誠告誡：您的情況若選用不當材料，極易發生意外。度尺師傅將派出高級顧問，現場進行壓力測試。如最終方案未能達到我們的安全標準，我們寧願拒絕施工，亦絕不拿貓咪生命冒險。」",
+        assessment: "緊急預警！您的評估分數極高，屬於「極高風險類別」。這代表您的貓咪具備極強的破壞力或衝刺力（如暴衝習慣），或者您的窗戶結構已面臨老化風險。在這種情況下，低強度的防貓網絕對無法保障貓咪安全。",
+        recommendation: "必須選用最高強度的 DF Pro 守護系列。此系列採用高強度不鏽鋼網身及強化鋁合金框架，專為高空、多貓及極度活躍的貓咪設計。",
+        advice: "「作為專業的防貓網公司，我們必須坦誠告誡：您的情況若選用不當材料，極易發生意外。度尺師傅將以貓貓生命為大前提建議方案。如最終方案未能達到我們的安全標準，我們寧願拒絕接單，亦絕不拿貓咪生命冒險。」",
       };
     }
   };
