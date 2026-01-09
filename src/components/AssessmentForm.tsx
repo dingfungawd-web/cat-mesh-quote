@@ -8,6 +8,7 @@ import { Progress } from "@/components/ui/progress";
 import { ArrowLeft, ArrowRight, FileText, CheckCircle2 } from "lucide-react";
 import { AssessmentResult } from "./AssessmentResult";
 import { useToast } from "@/hooks/use-toast";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface FormData {
   address: string;
@@ -39,75 +40,76 @@ const initialFormData: FormData = {
   q9Score: -1,
 };
 
-const scoredQuestions = [
-  {
-    id: "q3",
-    question: "三、家中的貓咪總數？",
-    options: [
-      { value: 1, label: "1 分：1 隻" },
-      { value: 2, label: "2 分：2 隻" },
-      { value: 3, label: "3 分：3 隻" },
-      { value: 4, label: "4 分：4 隻或以上" },
-    ],
-  },
-  {
-    id: "q5",
-    question: "四、貓咪的窗邊行為模式？",
-    options: [
-      { value: 0, label: "0 分：只會睡在窗邊或遠觀" },
-      { value: 1, label: "1 分：偶爾會跳上窗台，但不會推網或抓網" },
-      { value: 2, label: "2 分：經常會扒窗、推網或抓咬網邊" },
-      { value: 3, label: "3 分：有嘗試過掙脫或打開紗窗、推開舊網的行為" },
-    ],
-  },
-  {
-    id: "q6",
-    question: "五、窗戶結構與通風習慣？",
-    options: [
-      { value: 0, label: "0 分：門窗沒有老化，只會有時打開部份門窗" },
-      { value: 1, label: "1 分：門窗有老化情況，只會有時打開部份門窗" },
-      { value: 2, label: "2 分：門窗沒有老化，會長時間打開門窗" },
-      { value: 3, label: "3 分：門窗有老化情況，並會長時間打開門窗" },
-    ],
-  },
-  {
-    id: "q7",
-    question: "六、您最活潑的貓咪性格屬於？",
-    options: [
-      { value: 0, label: "0 分：安靜、年老、不愛跳躍" },
-      { value: 1, label: "1 分：一般好動，喜歡在貓跳台上休息" },
-      { value: 2, label: "2 分：極度活躍，經常玩追逐遊戲或跑跳" },
-      { value: 3, label: "3 分：有「暴衝」或貓咪間打架追逐，可能高速衝撞窗口" },
-    ],
-  },
-  {
-    id: "q8",
-    question: "七、家中是否有其他高危險環境？",
-    options: [
-      { value: 0, label: "0 分：無" },
-      { value: 1, label: "1 分：貓跳台/櫃子緊鄰窗戶，貓咪可直接跳上窗台" },
-      { value: 2, label: "2 分：家中經常有幼童或大型寵物，可能誤推防貓網" },
-      { value: 3, label: "3 分：以上兩點皆有" },
-    ],
-  },
-  {
-    id: "q9",
-    question: "八、您對「防貓網」的安裝預期？",
-    options: [
-      { value: 0, label: "0 分：安全穩固，貓咪生命安全最重要" },
-      { value: 1, label: "1 分：安全固然重要，但希望兼顧最大採光和美觀" },
-      { value: 2, label: "2 分：希望用最實惠的方案，能擋住貓咪就足夠" },
-      { value: 3, label: "3 分：希望做出來「視覺隱形」，並且希望盡量節省預算" },
-    ],
-  },
-];
-
 export function AssessmentForm() {
   const [step, setStep] = useState(0);
   const [formData, setFormData] = useState<FormData>(initialFormData);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
+  const { t } = useLanguage();
+
+  const scoredQuestions = [
+    {
+      id: "q3",
+      question: t("q3.title"),
+      options: [
+        { value: 1, label: t("q3.opt1") },
+        { value: 2, label: t("q3.opt2") },
+        { value: 3, label: t("q3.opt3") },
+        { value: 4, label: t("q3.opt4") },
+      ],
+    },
+    {
+      id: "q5",
+      question: t("q5.title"),
+      options: [
+        { value: 0, label: t("q5.opt1") },
+        { value: 1, label: t("q5.opt2") },
+        { value: 2, label: t("q5.opt3") },
+        { value: 3, label: t("q5.opt4") },
+      ],
+    },
+    {
+      id: "q6",
+      question: t("q6.title"),
+      options: [
+        { value: 0, label: t("q6.opt1") },
+        { value: 1, label: t("q6.opt2") },
+        { value: 2, label: t("q6.opt3") },
+        { value: 3, label: t("q6.opt4") },
+      ],
+    },
+    {
+      id: "q7",
+      question: t("q7.title"),
+      options: [
+        { value: 0, label: t("q7.opt1") },
+        { value: 1, label: t("q7.opt2") },
+        { value: 2, label: t("q7.opt3") },
+        { value: 3, label: t("q7.opt4") },
+      ],
+    },
+    {
+      id: "q8",
+      question: t("q8.title"),
+      options: [
+        { value: 0, label: t("q8.opt1") },
+        { value: 1, label: t("q8.opt2") },
+        { value: 2, label: t("q8.opt3") },
+        { value: 3, label: t("q8.opt4") },
+      ],
+    },
+    {
+      id: "q9",
+      question: t("q9.title"),
+      options: [
+        { value: 0, label: t("q9.opt1") },
+        { value: 1, label: t("q9.opt2") },
+        { value: 2, label: t("q9.opt3") },
+        { value: 3, label: t("q9.opt4") },
+      ],
+    },
+  ];
 
   const totalSteps = 3;
   const progress = (step / totalSteps) * 100;
@@ -144,16 +146,16 @@ export function AssessmentForm() {
   const handleNext = () => {
     if (step === 0 && !isStep1Valid()) {
       toast({
-        title: "請填寫所有必填項目",
-        description: "所有欄位均為必填",
+        title: t("toast.fillAll"),
+        description: t("toast.fillAllDesc"),
         variant: "destructive",
       });
       return;
     }
     if (step === 1 && !isStep2Valid()) {
       toast({
-        title: "請完成所有評分問題",
-        description: "請為每個問題選擇一個選項",
+        title: t("toast.completeAll"),
+        description: t("toast.completeAllDesc"),
         variant: "destructive",
       });
       return;
@@ -211,16 +213,16 @@ export function AssessmentForm() {
       );
 
       toast({
-        title: "提交成功！",
-        description: "您的評估已成功提交，我們的團隊會盡快與您聯繫。",
+        title: t("toast.success"),
+        description: t("toast.successDesc"),
       });
       
       setIsSubmitted(true);
     } catch (error) {
       console.error("Sync error:", error);
       toast({
-        title: "提交失敗",
-        description: "請稍後再試或聯繫我們",
+        title: t("toast.error"),
+        description: t("toast.errorDesc"),
         variant: "destructive",
       });
     } finally {
@@ -250,22 +252,22 @@ export function AssessmentForm() {
       <div className="mb-8">
         <div className="flex items-center justify-between mb-3">
           <span className="text-sm font-medium text-muted-foreground">
-            步驟 {step + 1} / {totalSteps}
+            {t("step.of")} {step + 1} / {totalSteps}
           </span>
           <span className="text-sm font-medium text-primary">
-            {Math.round(progress)}% 完成
+            {Math.round(progress)}% {t("step.complete")}
           </span>
         </div>
         <Progress value={progress} className="h-2" />
         <div className="flex justify-between mt-3">
           <span className={`text-xs ${step >= 0 ? "text-primary font-medium" : "text-muted-foreground"}`}>
-            基本資料
+            {t("step.basic")}
           </span>
           <span className={`text-xs ${step >= 1 ? "text-primary font-medium" : "text-muted-foreground"}`}>
-            風險評估
+            {t("step.risk")}
           </span>
           <span className={`text-xs ${step >= 2 ? "text-primary font-medium" : "text-muted-foreground"}`}>
-            確認提交
+            {t("step.confirm")}
           </span>
         </div>
       </div>
@@ -275,16 +277,16 @@ export function AssessmentForm() {
         <Card className="p-6 md:p-8 animate-fade-in shadow-lg">
           <h2 className="text-xl font-semibold mb-6 flex items-center gap-2">
             <span className="w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-sm">1</span>
-            基本資料
+            {t("step.basic")}
           </h2>
           <div className="space-y-5">
             <div>
               <Label htmlFor="address" className="text-sm font-medium">
-                請輸入你的Whatsapp電話號碼 <span className="text-destructive">*</span>
+                {t("form.whatsapp")} <span className="text-destructive">*</span>
               </Label>
               <Input
                 id="address"
-                placeholder="請輸入您的電話號碼"
+                placeholder={t("form.whatsapp.placeholder")}
                 value={formData.address}
                 onChange={(e) => updateFormData("address", e.target.value)}
                 className="mt-1.5"
@@ -292,12 +294,12 @@ export function AssessmentForm() {
             </div>
             <div>
               <Label className="text-sm font-medium">
-                一、戶型與居住樓層？ <span className="text-destructive">*</span>
+                {t("form.q1")} <span className="text-destructive">*</span>
               </Label>
               <div className="grid grid-cols-2 gap-3 mt-1.5">
                 <div>
                   <Label htmlFor="buildingType" className="text-xs text-muted-foreground">
-                    戶型
+                    {t("form.buildingType")}
                   </Label>
                   <select
                     id="buildingType"
@@ -305,18 +307,18 @@ export function AssessmentForm() {
                     onChange={(e) => updateFormData("buildingType", e.target.value)}
                     className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                   >
-                    <option value="">請選擇</option>
-                    <option value="大廈">大廈</option>
-                    <option value="村屋/別墅">村屋/別墅</option>
+                    <option value="">{t("form.buildingType.select")}</option>
+                    <option value="大廈">{t("form.buildingType.building")}</option>
+                    <option value="村屋/別墅">{t("form.buildingType.house")}</option>
                   </select>
                 </div>
                 <div>
                   <Label htmlFor="floorLevel" className="text-xs text-muted-foreground">
-                    樓層
+                    {t("form.floor")}
                   </Label>
                   <Input
                     id="floorLevel"
-                    placeholder="例如：15"
+                    placeholder={t("form.floor.placeholder")}
                     value={formData.floorLevel}
                     onChange={(e) => updateFormData("floorLevel", e.target.value)}
                   />
@@ -325,16 +327,16 @@ export function AssessmentForm() {
             </div>
             <div>
               <Label className="text-sm font-medium">
-                二、家中門窗戶總數量？ <span className="text-destructive">*</span>
+                {t("form.q2")} <span className="text-destructive">*</span>
               </Label>
               <div className="grid grid-cols-2 gap-3 mt-1.5">
                 <div>
                   <Label htmlFor="windowCount" className="text-xs text-muted-foreground">
-                    窗
+                    {t("form.window")}
                   </Label>
                   <Input
                     id="windowCount"
-                    placeholder="數量"
+                    placeholder={t("form.quantity")}
                     type="number"
                     min="0"
                     value={formData.windowCount}
@@ -343,11 +345,11 @@ export function AssessmentForm() {
                 </div>
                 <div>
                   <Label htmlFor="doorCount" className="text-xs text-muted-foreground">
-                    門
+                    {t("form.door")}
                   </Label>
                   <Input
                     id="doorCount"
-                    placeholder="數量"
+                    placeholder={t("form.quantity")}
                     type="number"
                     min="0"
                     value={formData.doorCount}
@@ -358,11 +360,11 @@ export function AssessmentForm() {
             </div>
             <div>
               <Label htmlFor="heaviestCatWeight" className="text-sm font-medium">
-                三、最重貓咪的體重？（單位：Kg） <span className="text-destructive">*</span>
+                {t("form.q3.weight")} <span className="text-destructive">*</span>
               </Label>
               <Input
                 id="heaviestCatWeight"
-                placeholder="例如：5.5"
+                placeholder={t("form.weight.placeholder")}
                 type="number"
                 step="0.1"
                 min="0"
@@ -381,13 +383,13 @@ export function AssessmentForm() {
           <Card className="p-6 md:p-8 shadow-lg">
             <h2 className="text-xl font-semibold mb-2 flex items-center gap-2">
               <span className="w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-sm">2</span>
-              風險評估問題
+              {t("form.riskTitle")}
             </h2>
             <p className="text-sm text-muted-foreground mb-6">
-              以下問題將用於評估您家中的防護需求等級
+              {t("form.riskDesc")}
             </p>
             <div className="space-y-8">
-              {scoredQuestions.map((q, index) => (
+              {scoredQuestions.map((q) => (
                 <div key={q.id} className="pb-6 border-b border-border last:border-0 last:pb-0">
                   <Label className="text-base font-medium block mb-4">
                     {q.question} <span className="text-destructive">*</span>
@@ -433,70 +435,70 @@ export function AssessmentForm() {
         <Card className="p-6 md:p-8 animate-fade-in shadow-lg">
           <h2 className="text-xl font-semibold mb-6 flex items-center gap-2">
             <span className="w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-sm">3</span>
-            確認提交
+            {t("confirm.title")}
           </h2>
           <div className="space-y-6">
             <div className="bg-secondary/50 rounded-lg p-4 space-y-3">
-              <h3 className="font-medium text-sm text-muted-foreground">基本資料</h3>
+              <h3 className="font-medium text-sm text-muted-foreground">{t("confirm.basicInfo")}</h3>
               <div className="grid gap-2 text-sm">
                 <div className="flex justify-between">
-                  <span className="text-muted-foreground">地址：</span>
+                  <span className="text-muted-foreground">{t("confirm.address")}</span>
                   <span className="font-medium">{formData.address}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-muted-foreground">戶型：</span>
+                  <span className="text-muted-foreground">{t("confirm.buildingType")}</span>
                   <span className="font-medium">{formData.buildingType}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-muted-foreground">樓層：</span>
+                  <span className="text-muted-foreground">{t("confirm.floor")}</span>
                   <span className="font-medium">{formData.floorLevel}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-muted-foreground">窗數量：</span>
-                  <span className="font-medium">{formData.windowCount} 個</span>
+                  <span className="text-muted-foreground">{t("confirm.windowCount")}</span>
+                  <span className="font-medium">{formData.windowCount} {t("unit.pieces")}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-muted-foreground">門數量：</span>
-                  <span className="font-medium">{formData.doorCount} 個</span>
+                  <span className="text-muted-foreground">{t("confirm.doorCount")}</span>
+                  <span className="font-medium">{formData.doorCount} {t("unit.pieces")}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-muted-foreground">最重貓咪：</span>
-                  <span className="font-medium">{formData.heaviestCatWeight} Kg</span>
+                  <span className="text-muted-foreground">{t("confirm.heaviestCat")}</span>
+                  <span className="font-medium">{formData.heaviestCatWeight} {t("unit.kg")}</span>
                 </div>
               </div>
             </div>
 
             <div className="bg-secondary/50 rounded-lg p-4 space-y-3">
-              <h3 className="font-medium text-sm text-muted-foreground">風險評估得分</h3>
+              <h3 className="font-medium text-sm text-muted-foreground">{t("confirm.riskScore")}</h3>
               <div className="grid gap-2 text-sm">
                 <div className="flex justify-between">
-                  <span className="text-muted-foreground">貓咪數量：</span>
-                  <span className="font-medium">{formData.q3Score} 分</span>
+                  <span className="text-muted-foreground">{t("confirm.catCount")}</span>
+                  <span className="font-medium">{formData.q3Score} {t("unit.points")}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-muted-foreground">窗邊行為：</span>
-                  <span className="font-medium">{formData.q5Score} 分</span>
+                  <span className="text-muted-foreground">{t("confirm.windowBehavior")}</span>
+                  <span className="font-medium">{formData.q5Score} {t("unit.points")}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-muted-foreground">窗戶結構：</span>
-                  <span className="font-medium">{formData.q6Score} 分</span>
+                  <span className="text-muted-foreground">{t("confirm.windowStructure")}</span>
+                  <span className="font-medium">{formData.q6Score} {t("unit.points")}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-muted-foreground">貓咪性格：</span>
-                  <span className="font-medium">{formData.q7Score} 分</span>
+                  <span className="text-muted-foreground">{t("confirm.catPersonality")}</span>
+                  <span className="font-medium">{formData.q7Score} {t("unit.points")}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-muted-foreground">高危環境：</span>
-                  <span className="font-medium">{formData.q8Score} 分</span>
+                  <span className="text-muted-foreground">{t("confirm.highRisk")}</span>
+                  <span className="font-medium">{formData.q8Score} {t("unit.points")}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-muted-foreground">安裝預期：</span>
-                  <span className="font-medium">{formData.q9Score} 分</span>
+                  <span className="text-muted-foreground">{t("confirm.expectation")}</span>
+                  <span className="font-medium">{formData.q9Score} {t("unit.points")}</span>
                 </div>
               </div>
               <div className="pt-3 border-t border-border">
                 <div className="flex justify-between items-center">
-                  <span className="font-medium">總分：</span>
+                  <span className="font-medium">{t("confirm.totalScore")}</span>
                   <span className="text-2xl font-bold text-primary">{calculateTotalScore()}/19</span>
                 </div>
               </div>
@@ -505,7 +507,7 @@ export function AssessmentForm() {
             <div className="flex items-start gap-3 p-4 bg-primary/10 rounded-lg">
               <CheckCircle2 className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
               <p className="text-sm text-foreground">
-                提交後，我們的專業團隊將根據您的評估結果，為您準備度尺方案。您也可以匯出 PDF 報告以供參考。
+                {t("confirm.submitNote")}
               </p>
             </div>
           </div>
@@ -521,11 +523,11 @@ export function AssessmentForm() {
           className="gap-2"
         >
           <ArrowLeft className="w-4 h-4" />
-          上一步
+          {t("btn.back")}
         </Button>
         {step < totalSteps - 1 ? (
           <Button onClick={handleNext} className="gap-2">
-            下一步
+            {t("btn.next")}
             <ArrowRight className="w-4 h-4" />
           </Button>
         ) : (
@@ -537,12 +539,12 @@ export function AssessmentForm() {
             {isSubmitting ? (
               <>
                 <div className="w-4 h-4 border-2 border-primary-foreground/30 border-t-primary-foreground rounded-full animate-spin" />
-                提交中...
+                {t("btn.submitting")}
               </>
             ) : (
               <>
                 <FileText className="w-4 h-4" />
-                提交資料，獲取報告
+                {t("btn.submit")}
               </>
             )}
           </Button>
