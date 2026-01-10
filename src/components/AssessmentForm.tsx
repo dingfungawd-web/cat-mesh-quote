@@ -169,6 +169,13 @@ export function AssessmentForm() {
     }
   };
 
+  const getAnswerLabel = (questionId: string, score: number): string => {
+    const question = scoredQuestions.find(q => q.id === questionId);
+    if (!question) return "";
+    const option = question.options.find(o => o.value === score);
+    return option ? option.label : "";
+  };
+
   const handleSubmit = async () => {
     setIsSubmitting(true);
     
@@ -187,12 +194,12 @@ export function AssessmentForm() {
       windowCount: formData.windowCount,
       doorCount: formData.doorCount || "0",
       heaviestCatWeight: formData.heaviestCatWeight,
-      q3Score: formData.q3Score,
-      q5Score: formData.q5Score,
-      q6Score: formData.q6Score,
-      q7Score: formData.q7Score,
-      q8Score: formData.q8Score,
-      q9Score: formData.q9Score,
+      q3: `${formData.q3Score} - ${getAnswerLabel("q3", formData.q3Score)}`,
+      q5: `${formData.q5Score} - ${getAnswerLabel("q5", formData.q5Score)}`,
+      q6: `${formData.q6Score} - ${getAnswerLabel("q6", formData.q6Score)}`,
+      q7: `${formData.q7Score} - ${getAnswerLabel("q7", formData.q7Score)}`,
+      q8: `${formData.q8Score} - ${getAnswerLabel("q8", formData.q8Score)}`,
+      q9: `${formData.q9Score} - ${getAnswerLabel("q9", formData.q9Score)}`,
       totalScore: totalScore,
       riskLevel: getRiskLevel(totalScore),
     };
