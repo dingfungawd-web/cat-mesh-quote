@@ -187,21 +187,21 @@ export function AssessmentForm() {
     };
 
     const payload = {
-      timestamp: new Date().toLocaleString("zh-HK"),
-      address: formData.address,
-      floor: formData.floorLevel,
-      buildingType: formData.buildingType,
-      windowCount: formData.windowCount,
-      doorCount: formData.doorCount || "0",
-      heaviestCatWeight: formData.heaviestCatWeight,
-      q3: `${formData.q3Score} - ${getAnswerLabel("q3", formData.q3Score)}`,
-      q5: `${formData.q5Score} - ${getAnswerLabel("q5", formData.q5Score)}`,
-      q6: `${formData.q6Score} - ${getAnswerLabel("q6", formData.q6Score)}`,
-      q7: `${formData.q7Score} - ${getAnswerLabel("q7", formData.q7Score)}`,
-      q8: `${formData.q8Score} - ${getAnswerLabel("q8", formData.q8Score)}`,
-      q9: `${formData.q9Score} - ${getAnswerLabel("q9", formData.q9Score)}`,
-      totalScore: totalScore,
-      riskLevel: getRiskLevel(totalScore),
+      "提交時間": new Date().toLocaleString("zh-HK"),
+      "Whatsapp": formData.address,
+      "戶型": formData.buildingType,
+      "樓層": formData.floorLevel,
+      "窗數量": formData.windowCount,
+      "門數量": formData.doorCount || "0",
+      "最重貓咪體重": formData.heaviestCatWeight,
+      "貓咪數量": `${formData.q3Score} - ${getAnswerLabel("q3", formData.q3Score)}`,
+      "窗邊行為模式": `${formData.q5Score} - ${getAnswerLabel("q5", formData.q5Score)}`,
+      "窗戶結構習慣": `${formData.q6Score} - ${getAnswerLabel("q6", formData.q6Score)}`,
+      "貓咪性格": `${formData.q7Score} - ${getAnswerLabel("q7", formData.q7Score)}`,
+      "高危環境": `${formData.q8Score} - ${getAnswerLabel("q8", formData.q8Score)}`,
+      "安裝預期": `${formData.q9Score} - ${getAnswerLabel("q9", formData.q9Score)}`,
+      "總分": totalScore,
+      "風險級別": getRiskLevel(totalScore),
     };
 
     try {
