@@ -204,7 +204,7 @@ export function AssessmentForm() {
     params.append("N", totalScore.toString()); // 評估得分
     params.append("O", getRiskLevel(totalScore)); // 風險級別
 
-    const scriptUrl = "https://script.google.com/macros/s/AKfycbwM2k5r3IAm6TdpT3wtiLITBCQGpxJ1r1NDsjuPRECRO-LbubCLSRatmx-F9Afas0IsDg/exec";
+    const scriptUrl = "https://script.google.com/macros/s/AKfycbxkq611F6WG9FdNSTgA3OFgEztPpa0txv9e1ZIkQJ5WQPZIwsHhq1OO_u9dy5Vwax7oyg/exec";
 
     try {
       await fetch(`${scriptUrl}?${params.toString()}`, {
