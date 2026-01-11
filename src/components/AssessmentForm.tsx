@@ -186,36 +186,31 @@ export function AssessmentForm() {
       return "極高風險警告";
     };
 
-    const payload = {
-      "提交時間": new Date().toLocaleString("zh-HK"),
-      "Whatsapp": formData.address,
-      "戶型": formData.buildingType,
-      "樓層": formData.floorLevel,
-      "窗數量": formData.windowCount,
-      "門數量": formData.doorCount || "0",
-      "最重貓咪的體重Kg？": formData.heaviestCatWeight,
-      "家中的貓咪總數？": `${formData.q3Score}, ${getAnswerLabel("q3", formData.q3Score)}`,
-      "貓咪的窗邊行為模式？": `${formData.q5Score}, ${getAnswerLabel("q5", formData.q5Score)}`,
-      "窗戶結構與通風習慣？": `${formData.q6Score}, ${getAnswerLabel("q6", formData.q6Score)}`,
-      "您最活潑的貓咪性格屬於？": `${formData.q7Score}, ${getAnswerLabel("q7", formData.q7Score)}`,
-      "家中是否有其他高危險環境？": `${formData.q8Score}, ${getAnswerLabel("q8", formData.q8Score)}`,
-      "您對「防貓網」的安裝預期？": `${formData.q9Score}, ${getAnswerLabel("q9", formData.q9Score)}`,
-      "評估得分": totalScore,
-      "風險級別": getRiskLevel(totalScore),
-    };
+    // 建立 URL 參數 (A-O 欄位順序)
+    const params = new URLSearchParams();
+    params.append("A", new Date().toLocaleString("zh-HK")); // 提交時間
+    params.append("B", formData.address); // Whatsapp
+    params.append("C", formData.buildingType); // 戶型
+    params.append("D", formData.floorLevel); // 樓層
+    params.append("E", formData.windowCount); // 窗數量
+    params.append("F", formData.doorCount || "0"); // 門數量
+    params.append("G", formData.heaviestCatWeight); // 最重貓咪的體重Kg？
+    params.append("H", `${formData.q3Score}, ${getAnswerLabel("q3", formData.q3Score)}`); // 家中的貓咪總數？
+    params.append("I", `${formData.q5Score}, ${getAnswerLabel("q5", formData.q5Score)}`); // 貓咪的窗邊行為模式？
+    params.append("J", `${formData.q6Score}, ${getAnswerLabel("q6", formData.q6Score)}`); // 窗戶結構與通風習慣？
+    params.append("K", `${formData.q7Score}, ${getAnswerLabel("q7", formData.q7Score)}`); // 您最活潑的貓咪性格屬於？
+    params.append("L", `${formData.q8Score}, ${getAnswerLabel("q8", formData.q8Score)}`); // 家中是否有其他高危險環境？
+    params.append("M", `${formData.q9Score}, ${getAnswerLabel("q9", formData.q9Score)}`); // 您對「防貓網」的安裝預期？
+    params.append("N", totalScore.toString()); // 評估得分
+    params.append("O", getRiskLevel(totalScore)); // 風險級別
+
+    const scriptUrl = "https://script.google.com/macros/s/AKfycbwM2k5r3IAm6TdpT3wtiLITBCQGpxJ1r1NDsjuPRECRO-LbubCLSRatmx-F9Afas0IsDg/exec";
 
     try {
-      await fetch(
-        "https://script.google.com/macros/s/AKfycbwM2k5r3IAm6TdpT3wtiLITBCQGpxJ1r1NDsjuPRECRO-LbubCLSRatmx-F9Afas0IsDg/exec",
-        {
-          method: "POST",
-          mode: "no-cors",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(payload),
-        }
-      );
+      await fetch(`${scriptUrl}?${params.toString()}`, {
+        method: "GET",
+        mode: "no-cors",
+      });
 
       toast({
         title: "提交成功！",
